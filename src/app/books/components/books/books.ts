@@ -30,4 +30,28 @@ export class Books implements OnInit {
       );
     }
   }
+
+  createNewBook(): void {
+    const newBook: Book = {
+      id: Date.now(),
+      name: 'New Book',
+      type: 'Design Book',
+      size: '1.0 MB',
+      createdAt: new Date(),
+      pages: 10,
+    };
+    this.allBooks.push(newBook);
+      this.filteredBooks = this.allBooks.filter(book => 
+        book.name.toLowerCase().includes(this.searchTerm) ||
+        book.type.toLowerCase().includes(this.searchTerm)
+      );
+    if (!this.searchTerm) {
+      this.filteredBooks = [...this.allBooks];
+    }
+  }
+
+  handleDelete(bookId: number): void {
+    this.allBooks = this.allBooks.filter(book => book.id !== bookId);
+    this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
+  }
 }
