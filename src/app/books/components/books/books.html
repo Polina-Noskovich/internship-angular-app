@@ -4,8 +4,10 @@
     <div class="toolbar">
         <input #searchInput type="text" placeholder="Search..."
         (keyup.enter)="search(searchInput.value)" autofocus>
-        
+        <button (click)="createNewBook()">Create new book</button>
     </div>
 
-    <app-book-list [books]="filteredBooks" [searchTerm]="searchTerm"></app-book-list>
+    <app-book-list [books]="filteredBooks" [searchTerm]="searchTerm" (deleteBook)="handleDelete($event)">
+        
+    </app-book-list>
 </div>

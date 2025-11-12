@@ -17,7 +17,16 @@
                     <td>{{ book.size }}</td>
                     <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
                     <td>{{ book.pages }}</td>
-                    <td></td>
+                    <td class="action-cell">
+                        <div class="menu-container">
+                            <button class="menu-batton" (click)="toggleMenu(book.id)">&#8942;</button>
+                            @if (activeMenuId === book.id) {
+                                <div class="menu">
+                                    <button (click)="onDelete(book.id)">Delete</button>
+                                </div>
+                            }
+                        </div>
+                    </td>
                 </tr>
             }
             @empty {
