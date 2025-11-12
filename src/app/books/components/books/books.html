@@ -1,0 +1,11 @@
+<div class="books-container">
+    <h1>Books</h1>
+
+    <div class="toolbar">
+        <input #searchInput type="text" placeholder="Search..."
+        (keyup.enter)="search(searchInput.value)" autofocus>
+        
+    </div>
+
+    <app-book-list [books]="filteredBooks" [searchTerm]="searchTerm"></app-book-list>
+</div>

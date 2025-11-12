@@ -1,0 +1,29 @@
+<table class="books-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Created at</th>
+            <th>Pages</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @for (book of books; track book.id) {
+                <tr>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.type }}</td>
+                    <td>{{ book.size }}</td>
+                    <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
+                    <td>{{ book.pages }}</td>
+                    <td></td>
+                </tr>
+            }
+            @empty {
+                <tr>
+                    <td colspan="6">Not found :(</td>
+                </tr>
+            }
+    </tbody>
+</table>
