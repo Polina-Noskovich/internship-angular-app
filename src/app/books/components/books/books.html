@@ -1,13 +1,21 @@
 <div class="books-container">
-    <h1>Books</h1>
+  <h1>Books</h1>
 
-    <div class="toolbar">
-        <input #searchInput type="text" placeholder="Search..."
-        (keyup.enter)="search(searchInput.value)" autofocus>
-        <button (click)="createNewBook()">Create new book</button>
-    </div>
+  <div class="toolbar">
+    <input
+      #searchInput
+      type="text"
+      placeholder="Search..."
+      (keyup.enter)="search(searchInput.value)"
+      autofocus
+    />
+    <button class="create-button" (click)="createNewBook()">Create new book</button>
+  </div>
 
-    <app-book-list [books]="filteredBooks" [searchTerm]="searchTerm" (deleteBook)="handleDelete($event)">
-        
-    </app-book-list>
+  <app-book-list
+    [books]="filteredBooks"
+    [searchTerm]="searchTerm"
+    (deleteBook)="handleDelete($event)"
+  >
+  </app-book-list>
 </div>
