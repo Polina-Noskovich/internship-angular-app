@@ -5,12 +5,12 @@ import { Directive, Input, OnChanges, SimpleChanges, ElementRef, Renderer2 } fro
   standalone: false
 })
 export class Highlight implements OnChanges {
-  @Input('appHighlight') textToHighlight: string = '';
-  @Input() highlightText: string = '';
+  @Input ('appHighlight') public  textToHighlight: string = '';
+  @Input() public highlightText: string = '';
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
+  public constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes['textToHighlight'] || changes['highlightText']) {
       this.updateHiglight();
     }

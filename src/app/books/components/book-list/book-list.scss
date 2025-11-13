@@ -1,7 +1,8 @@
 .books-table {
   width: 100%;
-  border-collapse: collapse;
+  border-radius: var(--border-radius);
   border-spacing: 0;
+  overflow: hidden;
 
   th,
   td {
@@ -13,11 +14,12 @@
 
   th {
     font-weight: 600;
-    color: var(--color-text-secondary);
-    background-color: var(--color-bg-light);
+    color: var(--color-bg-light);
+    background-color: var( --color-dark-header);
     font-size: 0.875rem;
     text-transform: uppercase;
   }
+
 
   tbody tr:last-child td {
     border-bottom: none;
@@ -40,6 +42,7 @@
 .action-cell {
   width: 50px;
   text-align: right;
+  
 }
 
 .menu-container {
@@ -47,21 +50,11 @@
   display: inline-block;
 }
 
-.menu-button {
+.menu-batton {
   background: none;
-  border: none;
-  font-size: 1.25rem;
-  line-height: 1;
-  padding: 0.25rem 0.5rem;
-  border-radius: 50%;
+  border: none;    
   cursor: pointer;
-  color: var(--color-text-secondary);
-  transition: background-color 0.2s, color 0.2s;
-
-  &:hover {
-    background-color: #e9ecef;
-    color: var(--color-text-primary);
-  }
+  font-size: 1.25rem;
 }
 
 .menu {
@@ -78,6 +71,8 @@
 
   button {
     display: block;
+    background: none; 
+    border: none;   
     width: 100%;
     padding: 0.5rem 1rem;
     border: none;
