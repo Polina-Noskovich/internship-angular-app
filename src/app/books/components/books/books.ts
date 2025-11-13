@@ -9,49 +9,46 @@ import { Book } from '../../models/book-model'
   styleUrl: './books.scss',
 })
 export class Books implements OnInit {
-  allBooks: Book[] = [];
-  filteredBooks: Book[] = [];
-  searchTerm: string = '';
+  private allBooks: Book[] = [];
+  public filteredBooks: Book[] = [];
+  public searchTerm: string = '';
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.allBooks = MOCK_BOOKS;
     this.filteredBooks = [...this.allBooks];
   }
 
-  search(value: string): void {
+  public search(value: string): void {
     this.searchTerm = value.toLowerCase();
-    if(!this.searchTerm) {
-      this.filteredBooks = [...this.allBooks];
-    }
-    else {
-      this.filteredBooks = this.allBooks.filter(book => 
-        book.name.toLowerCase().includes(this.searchTerm) ||
-        book.type.toLowerCase().includes(this.searchTerm)
-      );
-    }
+    this.filterBooks(); 
   }
 
-  createNewBook(): void {
+  public createNewBook(): void {
+    const maxId = this.allBooks.length > 0 ? Math.max(...this.allBooks.map(book => book.id)) : 0;
+    const nextId = maxId + 1;
+
     const newBook: Book = {
-      id: Date.now(),
+      id: nextId,
       name: 'New Book',
       type: 'Design Book',
-      size: '1.0 MB',
+      size: `1 MB`,
       createdAt: new Date(),
       pages: 10,
     };
     this.allBooks.push(newBook);
-      this.filteredBooks = this.allBooks.filter(book => 
-        book.name.toLowerCase().includes(this.searchTerm) ||
-        book.type.toLowerCase().includes(this.searchTerm)
-      );
-    if (!this.searchTerm) {
-      this.filteredBooks = [...this.allBooks];
-    }
+    this.filterBooks();
   }
 
-  handleDelete(bookId: number): void {
+  public handleDelete(bookId: number): void {
     this.allBooks = this.allBooks.filter(book => book.id !== bookId);
-    this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
+    this.filterBooks();
+  }
+
+  private filterBooks(): void {
+    this.filteredBooks = this.allBooks.filter(book =>
+      !this.searchTerm ||
+      (book.name.toLowerCase().includes(this.searchTerm) ||
+       book.type.toLowerCase().includes(this.searchTerm))
+    );
   }
 }
