@@ -1,0 +1,38 @@
+<table class="books-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Created at</th>
+            <th>Pages</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @for (book of books; track book.id) {
+                <tr>
+                    <td [innerHTML]="book.id + '. ' + book.name | highlight : searchTerm"></td>
+                    <td [innerHTML]="book.type | highlight : searchTerm : '#fff3cd'"></td>
+                    <td>{{ book.size }}</td>
+                    <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
+                    <td>{{ book.pages }}</td>
+                    <td class="action-cell">
+                        <div class="menu-container">
+                            <button class="menu-batton" (click)="toggleMenu(book.id)">⋮</button>
+                            @if (activeMenuId === book.id) {
+                                <div class="menu">
+                                    <button (click)="onDelete(book.id)">Delete</button>
+                                </div>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+            @empty {
+                <tr>
+                    <td colspan="6">Not found :(</td>
+                </tr>
+            }
+    </tbody>
+</table>
