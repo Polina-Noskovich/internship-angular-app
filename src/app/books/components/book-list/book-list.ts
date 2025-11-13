@@ -8,15 +8,16 @@ import { Book } from '../../models/book-model'
   styleUrl: './book-list.scss',
 })
 export class BookList {
-  @Input() books: Book[] = [];
-  @Input() searchTerm: string = '';
-  @Output() deleteBook = new EventEmitter<number>();
-  activeMenuId: number | null = null;
+  @Input() public books: Book[] = [];
+  @Input() public searchTerm: string = '';
+  @Output() public deleteBook = new EventEmitter<number>();
 
-  toggleMenu(bookId: number): void {
+  public activeMenuId: number | null = null;
+
+  public toggleMenu(bookId: number): void {
     this.activeMenuId = this.activeMenuId ===bookId ? null : bookId;
   }
-  onDelete(bookId: number): void {
+  public onDelete(bookId: number): void {
     this.deleteBook.emit(bookId);
     this.activeMenuId = null;
   }

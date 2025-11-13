@@ -12,14 +12,13 @@
     <tbody>
             @for (book of books; track book.id) {
                 <tr>
-                    <td [appHighlight]="book.name" [highlightText]="searchTerm"></td>
-                    <td [appHighlight]="book.type" [highlightText]="searchTerm"></td>
+                    <td [innerHTML]="book.id + '. ' + book.name | highlight : searchTerm"></td>
                     <td>{{ book.size }}</td>
                     <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
                     <td>{{ book.pages }}</td>
                     <td class="action-cell">
                         <div class="menu-container">
-                            <button class="menu-batton" (click)="toggleMenu(book.id)">&#8942;</button>
+                            <button class="menu-batton" (click)="toggleMenu(book.id)">⋮</button>
                             @if (activeMenuId === book.id) {
                                 <div class="menu">
                                     <button (click)="onDelete(book.id)">Delete</button>
