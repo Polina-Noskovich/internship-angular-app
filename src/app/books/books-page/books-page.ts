@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MOCK_BOOKS } from '../../data/mock-books'; 
-import { Book } from '../../models/book-model'
+import { MOCK_BOOKS } from '../data/mock-books'; 
+import { Book } from '../models/book-model'
 
 @Component({
   selector: 'app-books',
   standalone: false,
-  templateUrl: './books.html',
-  styleUrl: './books.scss',
+  templateUrl: './books-page.html',
+  styleUrl: './books-page.scss',
 })
-export class Books implements OnInit {
+export class BooksPage implements OnInit {
   private allBooks: Book[] = [];
   public filteredBooks: Book[] = [];
   public searchTerm: string = '';
