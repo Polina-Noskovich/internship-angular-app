@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MOCK_BOOKS } from '../data/mock-books'; 
+import { BookService } from '../services/book'; 
 import { Book } from '../models/book-model'
 
 @Component({
@@ -13,8 +13,10 @@ export class BooksPage implements OnInit {
   public filteredBooks: Book[] = [];
   public searchTerm: string = '';
 
+  constructor(private bookService: BookService) {}
+
   public ngOnInit(): void {
-    this.allBooks = MOCK_BOOKS;
+    this.allBooks = this.bookService.getBooks();
     this.filteredBooks = [...this.allBooks];
   }
 
