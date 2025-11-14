@@ -5,7 +5,6 @@
   padding: 1rem;
   background-color: var(--color-dark-header);
   color: var(--color-white);
-  box-shadow: var(--shadow-md);
 }
 
 .main-nav {
@@ -29,6 +28,19 @@
       border-bottom-color: var(--color-primary);
     }
   }
+}
+
+.main-nav-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-text-primary);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
 }
 
 main {
