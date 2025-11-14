@@ -1,1 +1,15 @@
+<header class="main-header">
+    <nav class="main-nav">
+        <a routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+            Total count of books
+        </a>
+        <a routerLink="/books" routerLinkActive="active-link">
+            Books
+        </a>
+    </nav>
+    <button (click)="navigateToBooks()">Home of books</button>
+</header>
+
+<main>
 <router-outlet></router-outlet>
+</main>

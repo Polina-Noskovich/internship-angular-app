@@ -1,0 +1,36 @@
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--color-dark-header);
+  color: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+.main-nav {
+  display: flex;
+  gap: 1.5rem;
+
+  a {
+    color: var(--color-bg-light);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+      color: var(--color-white);
+    }
+
+    &.active-link {
+      color: var(--color-white);
+      border-bottom-color: var(--color-primary);
+    }
+  }
+}
+
+main {
+  padding: 1rem;
+}
