@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book-model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 const MOCK_BOOKS: Book[] = [
   { id: 1, name: 'Angular Basics', type: 'Design Book', size: '2.5 MB', createdAt: new Date('2023-01-15'), pages: 150 },
@@ -13,14 +15,28 @@ const MOCK_BOOKS: Book[] = [
   providedIn: 'root',
 })
 export class BookService  {
-  private books: Book[] = MOCK_BOOKS;
+  private books$ = new BehaviorSubject<Book[]>(MOCK_BOOKS);
   constructor() {}
 
-  getBooks(): Book[] {
-    return [...this.books];
+  getBooks(): Observable<Book[]> {
+    return this.books$.asObservable();
   }
 
-  getBooksCount(): number {
-    return this.books.length;
+  getBooksCount(): Observable<number> {
+    return this.books$.pipe(
+      map(books => books.length)
+    );
+  }
+
+  addBook(book: Book): void {
+    const currentBooks = this.books$.getValue();
+    const updatedBooks = [...currentBooks, book];
+    this.books$.next(updatedBooks);
+  }
+
+  deleteBook(bookId: number): void {
+    const currentBooks = this.books$.getValue();
+    const updatedBooks = currentBooks.filter(book => book.id !== bookId);
+    this.books$.next(updatedBooks);
   }
 }
