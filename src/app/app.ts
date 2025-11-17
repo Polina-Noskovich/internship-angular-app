@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-//  protected readonly title = signal('book-app');
   public title = 'book-app';
 
   constructor(private router: Router) {}

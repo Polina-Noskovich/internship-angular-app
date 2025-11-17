@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BooksPage } from './books-page';
 import { BookListModule } from '../book-list/book-list-module'; 
 import { Autofocus } from '../directives/autofocus';
+import { BooksRoutingModule } from '../books-routing-module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { Autofocus } from '../directives/autofocus';
   ],
   imports: [
     CommonModule,
-    BookListModule 
-  ]
+    BookListModule,
+    BooksRoutingModule,
+    ]
 })
 export class BooksPageModule { }
