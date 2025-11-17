@@ -8,14 +8,14 @@ import { Observable } from 'rxjs';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
-export class Dashboard {
-  projectName: string = 'Internship Book App';
-  bookCount$!: Observable<number>;
 
-  constructor(private bookService: BookService) {}
+export class Dashboard implements OnInit { 
+  protected readonly projectName: string = 'Internship Book App';
+  protected bookCount$!: Observable<number>;
 
-  ngOnInit(): void {
+  constructor(private readonly bookService: BookService) {}
+
+  public ngOnInit(): void {
     this.bookCount$ = this.bookService.getBooksCount();
   }
-
 }

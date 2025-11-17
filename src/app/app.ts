@@ -8,10 +8,11 @@ import { Router } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  public title = 'book-app';
+  protected readonly title = 'book-app';
 
-  constructor(private router: Router) {}
-  navigateToBooks(): void {
+  constructor(private readonly router: Router) {}
+  
+  protected navigateToBooks(): void {
     this.router.navigate(['/books']);
   }
 }

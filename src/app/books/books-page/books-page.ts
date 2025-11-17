@@ -10,12 +10,13 @@ import { Subscription } from 'rxjs';
   styleUrl: './books-page.scss',
 })
 export class BooksPage implements OnInit, OnDestroy {
+  protected filteredBooks: Book[] = [];
+  protected searchTerm: string = '';
+
   private allBooks: Book[] = [];
-  public filteredBooks: Book[] = [];
-  public searchTerm: string = '';
   private bookSubscription: Subscription = new Subscription();
 
-  constructor(private bookService: BookService) {}
+  constructor(private readonly bookService: BookService) {}
 
   public ngOnInit(): void {
     this.bookSubscription = this.bookService.getBooks().subscribe(books => {
@@ -24,7 +25,7 @@ export class BooksPage implements OnInit, OnDestroy {
     })
   }
 
-  search(value: string): void {
+  protected search(value: string): void {
     this.searchTerm = value.toLowerCase();
     this.filteredBooks = this.searchTerm
       ? this.allBooks.filter(book =>
@@ -50,11 +51,11 @@ export class BooksPage implements OnInit, OnDestroy {
     this.bookService.addBook(newBook);
   }
 
-  public onDelete(bookId: number): void {
+  protected onDelete(bookId: number): void {
     this.bookService.deleteBook(bookId);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.bookSubscription.unsubscribe();
   }
 }

@@ -15,26 +15,26 @@ const MOCK_BOOKS: Book[] = [
   providedIn: 'root',
 })
 export class BookService  {
-  private books$ = new BehaviorSubject<Book[]>(MOCK_BOOKS);
+  private readonly books$ = new BehaviorSubject<Book[]>(MOCK_BOOKS);
   constructor() {}
 
-  getBooks(): Observable<Book[]> {
+  public getBooks(): Observable<Book[]> {
     return this.books$.asObservable();
   }
 
-  getBooksCount(): Observable<number> {
+  public getBooksCount(): Observable<number> {
     return this.books$.pipe(
       map(books => books.length)
     );
   }
 
-  addBook(book: Book): void {
+  public addBook(book: Book): void {
     const currentBooks = this.books$.getValue();
     const updatedBooks = [...currentBooks, book];
     this.books$.next(updatedBooks);
   }
 
-  deleteBook(bookId: number): void {
+  public deleteBook(bookId: number): void {
     const currentBooks = this.books$.getValue();
     const updatedBooks = currentBooks.filter(book => book.id !== bookId);
     this.books$.next(updatedBooks);

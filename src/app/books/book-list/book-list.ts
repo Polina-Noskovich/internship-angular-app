@@ -10,14 +10,14 @@ import { Book } from '../models/book-model'
 export class BookList {
   @Input() public books: Book[] = [];
   @Input() public searchTerm: string = '';
-  @Output() public deleteBook = new EventEmitter<number>();
+  @Output() public readonly deleteBook = new EventEmitter<number>();
 
-  public activeMenuId: number | null = null;
+  protected activeMenuId: number | null = null;
 
-  public toggleMenu(bookId: number): void {
+  protected  toggleMenu(bookId: number): void {
     this.activeMenuId = this.activeMenuId ===bookId ? null : bookId;
   }
-  public onDelete(bookId: number): void {
+  protected  onDelete(bookId: number): void {
     this.deleteBook.emit(bookId);
     this.activeMenuId = null;
   }
