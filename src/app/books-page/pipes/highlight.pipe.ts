@@ -7,7 +7,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class HighlightPipe implements PipeTransform {
 
-  public constructor(private sanitizer: DomSanitizer) {}
+  public constructor(private readonly sanitizer: DomSanitizer) {}
 
   public transform(text: string, searchTerm: string, color: string = '#cceeff'): SafeHtml {
     if (!searchTerm || !text) {
