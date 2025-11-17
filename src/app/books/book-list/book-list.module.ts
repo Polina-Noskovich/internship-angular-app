@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookList } from './book-list';
-import { HighlightPipe } from '../pipes/highlight-pipe';
+import { HighlightPipe } from '../pipes/highlight.pipe';
 
 @NgModule({
   declarations: [

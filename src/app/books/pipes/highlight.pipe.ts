@@ -14,8 +14,7 @@ export class HighlightPipe implements PipeTransform {
       return text;
     }
     const regex = new RegExp(searchTerm, 'gi');
-    const highlightedText = text.replace(regex, (match) => `<span style="background-color: ${color};">${match}</span>`
-    );
+    const highlightedText = text.replace(regex, (match) => `<span style="background-color: ${color};">${match}</span>`);
 
     return this.sanitizer.bypassSecurityTrustHtml(highlightedText);
   }

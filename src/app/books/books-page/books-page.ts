@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BookService } from '../services/book'; 
+import { BookService } from '../services/book.service'; 
 import { Book } from '../models/book-model'
 import { Subscription } from 'rxjs';
 
@@ -26,15 +26,14 @@ export class BooksPage implements OnInit, OnDestroy {
 
   search(value: string): void {
     this.searchTerm = value.toLowerCase();
-    if (!this.searchTerm) {
-      this.filteredBooks = [...this.allBooks];
-    } else {
-      this.filteredBooks = this.allBooks.filter(book =>
-        book.name.toLowerCase().includes(this.searchTerm) ||
-        book.type.toLowerCase().includes(this.searchTerm)
-      );
-    }
+    this.filteredBooks = this.searchTerm
+      ? this.allBooks.filter(book =>
+          book.name.toLowerCase().includes(this.searchTerm) ||
+          book.type.toLowerCase().includes(this.searchTerm)
+        )
+      : [...this.allBooks];
   }
+
 
   public createNewBook(): void {
     const maxId = this.allBooks.length > 0 ? Math.max(...this.allBooks.map(book => book.id)) : 0;
@@ -51,7 +50,7 @@ export class BooksPage implements OnInit, OnDestroy {
     this.bookService.addBook(newBook);
   }
 
-  public handleDelete(bookId: number): void {
+  public onDelete(bookId: number): void {
     this.bookService.deleteBook(bookId);
   }
 
