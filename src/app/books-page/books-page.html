@@ -6,7 +6,7 @@
       #searchInput
       type="text"
       placeholder="Search..."
-      (keyup.enter)="search(searchInput.value)"
+      (input)="onSearchInput(searchInput.value)"
       appAutofocus
     />
     <button class="create-button" (click)="createNewBook()">Create new book</button>

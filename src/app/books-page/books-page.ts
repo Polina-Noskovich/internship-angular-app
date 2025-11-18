@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BookService } from './../services/book.service'; 
 import { Book } from './models/book-model'
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-books',
@@ -10,6 +10,10 @@ import { Subscription } from 'rxjs';
   styleUrl: './books-page.scss',
 })
 export class BooksPage implements OnInit, OnDestroy {
+
+  private readonly searchTerms$ = new Subject<string>();
+  private searchSubsription: Subscription = new Subscription();
+
   protected filteredBooks: Book[] = [];
   protected searchTerm: string = '';
 
@@ -19,23 +23,37 @@ export class BooksPage implements OnInit, OnDestroy {
   constructor(private readonly bookService: BookService) {}
 
   public ngOnInit(): void {
-    this.bookSubscription = this.bookService.getBooks().subscribe(books => {
+    const booksSub = this.bookService.getBooks().subscribe(books => {
       this.allBooks = books;
-      this.search(this.searchTerm);
-    })
+      this.filterBooks(this.searchTerm);
+    });
+
+    const searchSub = this.searchTerms$.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.filterBooks(term);
+    });
+
+    this.bookSubscription.add(booksSub);
+    this.bookSubscription.add(searchSub);
+
+}
+
+  protected onSearchInput(value: string): void {
+    this.searchTerms$.next(value.toLowerCase());
   }
 
-  protected search(value: string): void {
-    this.searchTerm = value.toLowerCase();
-    this.filteredBooks = this.searchTerm
-      ? this.allBooks.filter(book =>
-          book.name.toLowerCase().includes(this.searchTerm) ||
-          book.type.toLowerCase().includes(this.searchTerm)
-        )
-      : [...this.allBooks];
+  private filterBooks(term: string) {
+    this.filteredBooks = term ?
+      this.allBooks.filter(book => 
+        book.name.toLowerCase().includes(term) ||
+        book.type.toLowerCase().includes(term)
+      )
+    : [...this.allBooks];
   }
-
-
+  
   public createNewBook(): void {
     const maxId = this.allBooks.length > 0 ? Math.max(...this.allBooks.map(book => book.id)) : 0;
     const nextId = maxId + 1;

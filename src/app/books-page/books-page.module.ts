@@ -14,6 +14,6 @@ import { BooksRoutingModule } from './books-page-routing.module';
     CommonModule,
     BookListModule,
     BooksRoutingModule,
-    ]
+  ],
 })
 export class BooksPageModule { }
