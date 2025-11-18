@@ -27,13 +27,13 @@
   }
 
   .placeholder {
-    flex-basis: 90px;
+    flex-basis: 100px;
   }
 }
 
 .pages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
 }
 
@@ -59,3 +59,21 @@
     color: var(--color-text-secondary);
   }
 }
+
+:host {
+::ng-deep .mat-mdc-paginator {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  box-shadow: none;
+    .mat-mdc-paginator-range-label {
+    display: none;
+  }
+    .mat-mdc-paginator-container {
+    justify-content: center;
+  }
+}
+}
+

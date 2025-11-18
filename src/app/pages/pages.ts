@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, BehaviorSubject, map, switchMap, combineLatest } from 'rxjs';
 import { Book } from '../books-page/models/book-model';
 import { BookService } from '../services/book.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-pages',
@@ -10,15 +11,19 @@ import { BookService } from '../services/book.service';
   templateUrl: './pages.html',
   styleUrl: './pages.scss',
 })
-export class Pages {
+export class Pages implements OnInit {
   protected book$!: Observable<Book | undefined>;
-  protected pages:number[] = [];
+  protected paginatedPages$!: Observable<number[]>;
+  protected totalPages$!: Observable<number>;
 
-  protected selectedPageNumber: number | null = null;
+  protected readonly pagination$ = new BehaviorSubject<PageEvent>({
+    pageIndex: 0,
+    pageSize: 10,
+    length: 0,
+  });
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
     private readonly bookService: BookService
   ) {}
 
@@ -30,15 +35,25 @@ export class Pages {
       })
     );
 
-    this.book$.subscribe(book=> {
-      if(book) {
-        this.pages = Array.from({length: book.pages}, (_,i) => i+i);
-      }
-    });
+    const allPages$ = this.book$.pipe(
+      map(book => book ? Array.from({ length: book.pages }, (_, i) => i + 1) : [])
+    );
+
+    this.totalPages$ = allPages$.pipe(map(pages => pages.length));
+    
+    this.paginatedPages$ = combineLatest([
+      allPages$,
+      this.pagination$
+    ]).pipe(
+      map(([allPages, pagination]) => {
+        const startIndex = pagination.pageIndex * pagination.pageSize;
+        const endIndex = startIndex + pagination.pageSize;
+        return allPages.slice(startIndex, endIndex);
+      })
+    );
   }
 
-  protected goToAllPages(): void {
-    this.router.navigate(['/books']);
+  protected onPageChange(event: PageEvent): void {
+    this.pagination$.next(event);
   }
-
 }
