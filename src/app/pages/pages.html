@@ -9,23 +9,15 @@
   </div>
   <div class="pages-grid">
     @for (page of pages; track page) {
-      <div class="page-square" (click)="showCanvas(page)">
-        <span class="page-number">{{ page }}</span>
-      </div>
+        <a [routerLink]="['/page-detail', book.id, page]">
+            <div class="page-square">
+                <span class="page-number">{{ page }}</span>
+            </div>   
+        </a>
     } @empty {
       <p>This book has no pages.</p>
     }
   </div>
-  
-  @if (isCanvasVisible) {
-    <div class="canvas-overlay" (click)="hideCanvas()">
-        <div class="canvas-content" (click)="$event.stopPropagation()">
-            <h2>Page {{ selectedPageNumber }} of {{ book.name }}</h2>
-            <canvas width="600" height="400"></canvas>
-            <button (click)="hideCanvas()">Back to Pages</button>
-        </div>
-    </div>
-  }
 
 } @else {
   <p>Loading book information...</p>

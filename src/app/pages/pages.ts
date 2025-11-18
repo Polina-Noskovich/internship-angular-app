@@ -14,7 +14,6 @@ export class Pages {
   protected book$!: Observable<Book | undefined>;
   protected pages:number[] = [];
 
-  protected isCanvasVisible = false;
   protected selectedPageNumber: number | null = null;
 
   constructor(
@@ -36,16 +35,6 @@ export class Pages {
         this.pages = Array.from({length: book.pages}, (_,i) => i+i);
       }
     });
-  }
-
-  protected showCanvas(pageNumber: number): void {
-    this.selectedPageNumber = pageNumber;
-    this.isCanvasVisible = true;
-  }
-
-  protected hideCanvas(): void {
-    this.isCanvasVisible = false;
-    this.selectedPageNumber = null;
   }
 
   protected goToAllPages(): void {
