@@ -16,7 +16,7 @@
                     <td [innerHTML]="book.type | highlight : searchTerm : '#fff3cd'"></td>
                     <td>{{ book.size }}</td>
                     <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
-                    <td>{{ book.pages }}</td>
+                    <td><a [routerLink]="['/pages', book.id]">{{ book.pages }}</a></td>
                     <td class="action-cell">
                         <button mat-icon-button [matMenuTriggerFor]="menu">
                             <mat-icon>more_vert</mat-icon>
