@@ -1,0 +1,57 @@
+.books-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem 2rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-dark-header);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+
+  input[type='text'] {
+    flex-grow: 1;
+    max-width: 400px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+    }
+  }
+
+  .create-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+    }
+  }
+}

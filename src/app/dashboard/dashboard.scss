@@ -1,0 +1,30 @@
+.dashboard-container {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+h1 {
+  text-align: center;
+  color: var(--color-dark-header);
+}
+
+.info-card {
+  background-color: var(--color-white);
+  padding: 2rem;
+  text-align: center;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  margin-top: 2rem;
+
+  h2 {
+    margin-top: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .book-count {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0;
+  }
+}
