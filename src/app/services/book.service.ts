@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../books-page/models/book-model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, find } from 'rxjs';
-
-const MOCK_BOOKS: Book[] = [
-  { id: 1, name: 'Angular Basics', type: 'Design Book', size: '2.5 MB', createdAt: new Date('2023-01-15'), pages: 15 },
-  { id: 2, name: 'Project Planning', type: 'Item Schedule', size: '1.2 MB', createdAt: new Date('2023-03-22'), pages: 5 },
-  { id: 3, name: 'Server Installation Guide', type: 'Installation Book', size: '10.1 MB', createdAt: new Date('2023-05-30'), pages: 10 },
-  { id: 4, name: 'Advanced Angular Design', type: 'Design Book', size: '5.8 MB', createdAt: new Date('2023-08-10'), pages: 12 },
-  { id: 5, name: 'Component Library', type: 'Item Schedule', size: '0.8 MB', createdAt: new Date('2023-10-01'), pages: 8 },
-];
+import { map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService  {
-  private readonly books$ = new BehaviorSubject<Book[]>(MOCK_BOOKS);
-  constructor() {}
+  private readonly booksUrl = '/assets/data.json'
+  private readonly books$ = new BehaviorSubject<Book[]>([]);
+
+  constructor(private readonly http: HttpClient) {
+    this.loadInitialBooks();
+  }
 
   public getBooks(): Observable<Book[]> {
     return this.books$.asObservable();
@@ -44,6 +41,17 @@ export class BookService  {
     return this.getBooks().pipe(
       map(books => books.find(book => book.id === id))
     );
+  }
+
+  private loadInitialBooks(): void {
+    this.http.get<Book[]>(this.booksUrl).subscribe({
+      next: (books) => {
+        this.books$.next(books);
+      },
+      error: (err) => {
+        console.error('Failed to load books', err);
+      }
+    });
   }
 
 }
