@@ -10,6 +10,7 @@ import { Book } from '../models/book-model'
 export class BookList {
   @Input() public books: Book[] = [];
   @Input() public searchTerm: string = '';
+  
   @Output() public readonly deleteBook = new EventEmitter<number>();
 
   protected onDelete(bookId: number): void {

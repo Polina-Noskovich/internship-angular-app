@@ -10,7 +10,6 @@ import { Subscription, Subject, debounceTime, distinctUntilChanged } from 'rxjs'
   styleUrl: './books-page.scss',
 })
 export class BooksPage implements OnInit, OnDestroy {
-
   private readonly searchTerms$ = new Subject<string>();
   private searchSubsription: Subscription = new Subscription();
 

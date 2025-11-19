@@ -18,11 +18,12 @@
                     <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
                     <td>{{ book.pages }}</td>
                     <td class="action-cell">
-                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item (click)="onDelete(book.id)">
+                                <mat-icon>delete</mat-icon>
                                 <span>Delete</span>
                             </button>
                         </mat-menu>
