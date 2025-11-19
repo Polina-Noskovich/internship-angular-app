@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
 import { Book } from '../books-page/models/book-model';
@@ -14,6 +14,9 @@ export class PageDetail implements OnInit {
   protected book$!: Observable<Book | undefined>;
   protected pageNumber$!: Observable<number>;
 
+  @ViewChild('pageCanvas') private canvasRef!: ElementRef<HTMLCanvasElement>;
+  private canvasContext: CanvasRenderingContext2D | null = null;
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly bookService: BookService,
@@ -28,8 +31,45 @@ export class PageDetail implements OnInit {
       switchMap(params => {
         const bookId = Number(params.get('bookId'));
         return this.bookService.getBookById(bookId);
-      })
+      }),
     );
   }
 
-}
+  public ngAfterViewInit(): void {
+    this.drawPageLines();
+  }
+
+  private drawPageLines(): void {
+    if (!this.canvasRef || !this.canvasRef.nativeElement) {
+      console.error('Canvas element not found!');
+      return;
+    }
+
+    const canvas = this.canvasRef.nativeElement;
+    const context = canvas.getContext('2d'); 
+
+    if (context) {
+      const width = canvas.width;
+      const height = canvas.height;
+      const cellSize = 30; 
+
+      context.clearRect(0, 0, width, height);
+      context.beginPath();
+
+      context.strokeStyle = '#e0e0e0'; 
+      context.lineWidth = 1;
+
+      for (let y = cellSize; y < height; y += cellSize) {
+        context.moveTo(0, y);
+        context.lineTo(width, y);
+      }
+
+      for (let x = cellSize; x < width; x += cellSize) {
+        context.moveTo(x, 0);
+        context.lineTo(x, height);
+      }
+
+      context.stroke();
+    }
+  }
+  }

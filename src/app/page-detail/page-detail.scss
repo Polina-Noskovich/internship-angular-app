@@ -33,11 +33,12 @@
 
 .canvas-container {
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   margin-top: 2rem;
+}
 
-  canvas {
-    border: 1px solid var(--color-border);
-    background-color: var(--color-white);
-  }
+canvas {
+  border: 1px solid var(--color-border); 
+  background-color: var(--color-white);  
+  display: block; 
 }
