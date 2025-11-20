@@ -11,6 +11,7 @@
 
   @let pagination = pagination$ | async;
   @let pages = paginatedPages$ | async;
+  
   @if (pagination && pages?.length) {
     
     <div class="pages-grid">
@@ -36,6 +37,7 @@
   } @else {
       <p>This book has no pages.</p>
   }
+
 } @else {
   <p>Loading book information...</p>
 }

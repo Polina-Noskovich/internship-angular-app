@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Dashboard } from './dashboard/dashboard';
-import { BooksPage } from './books-page/books-page';
-import { Pages } from './pages/pages';
-import { PageDetail } from './page-detail/page-detail';
-import { BooksLayout } from './books-page/books-layout/books-layout'; 
+import { BookCount } from './book-count/book-count';
+import { BooksPage } from './book-layout/books-page/books-page';
+import { Pages } from './book-layout/pages/pages';
+import { PageDetail } from './book-layout/page-detail/page-detail';
+import { BooksLayout } from './book-layout/books-layout'; 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  { path: 'dashboard', component: Dashboard },
+  { path: '', redirectTo: 'book-count', pathMatch: 'full'},
+  { path: 'book-count', component: BookCount },
   { path: 'books', component: BooksLayout, 
     children: [
       {

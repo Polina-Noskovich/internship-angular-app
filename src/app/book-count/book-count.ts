@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   standalone: false,
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
+  templateUrl: './book-count.html',
+  styleUrl: './book-count.scss',
 })
 
-export class Dashboard implements OnInit { 
+export class BookCount implements OnInit { 
   protected readonly projectName: string = 'Internship Book App';
   protected bookCount$!: Observable<number>;
 

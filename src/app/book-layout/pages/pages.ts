@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, map, switchMap, combineLatest } from 'rxjs';
 import { Book } from '../books-page/models/book-model';
-import { BookService } from '../services/book.service';
+import { BookService } from '../../services/book.service';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
