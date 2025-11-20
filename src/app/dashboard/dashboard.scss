@@ -6,6 +6,7 @@
 h1 {
   text-align: center;
   color: var(--color-dark-header);
+  font-weight: 500;
 }
 
 .info-card {
@@ -19,11 +20,12 @@ h1 {
   h2 {
     margin-top: 0;
     color: var(--color-text-secondary);
+    font-weight: 500;
   }
 
   .book-count {
     font-size: 4rem;
     color: var(--color-primary);
-    margin-bottom: 0;
+    margin-bottom: 2.5rem;
   }
 }

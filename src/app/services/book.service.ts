@@ -14,7 +14,7 @@ export class BookService  {
   constructor(private readonly http: HttpClient) { }
 
   public getBooks(): Observable<Book[]> {
-    if (this.books$.getValue().length === 0) {
+    if (!this.books$.getValue().length) {
       this.loadInitialBooks();
     }
     return this.books$.asObservable();
