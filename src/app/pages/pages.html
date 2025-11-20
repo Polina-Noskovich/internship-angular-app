@@ -9,29 +9,33 @@
     <div class="placeholder"></div>
   </div>
 
-  @if ((paginatedPages$ | async)?.length) {
-    <div class="pages-grid">
-      @for (page of (paginatedPages$ | async); track page) {
-        <a [routerLink]="['/books', book.id, 'pages', page]">
-          <div class="page-square">
-            <span class="page-number">{{ page }}</span>
-          </div>
-        </a>
+  @if (pagination$ | async; as pagination) {
+    @if(paginatedPages$ | async; as pages) {
+      @if (pages.length > 0) {
+      <div class="pages-grid">
+        @for (page of pages; track page) {
+          <a [routerLink]="['/books', book.id, 'pages', page]">
+            <div class="page-square">
+              <span class="page-number">{{ page }}</span>
+            </div>
+          </a>
+        }
+      </div>
+      } @else {
+        <p>This book has no pages or they are loading...</p>
       }
-    </div>
-  } @else {
-    <p>This book has no pages or they are loading...</p>
+    }
+    
+    <mat-paginator
+      [length]="(totalPages$ | async) ?? 0"
+      [pageSize]="pagination.pageSize"
+      [pageIndex]="pagination.pageIndex"
+      (page)="onPageChange($event)"
+      [hidePageSize]="true"
+      [showFirstLastButtons]="false"
+      aria-label="Select page">
+    </mat-paginator>
   }
-  
-  <mat-paginator
-    [length]="(totalPages$ | async) ?? 0"
-    [pageSize]="(pagination$ | async)!.pageSize"
-    [pageIndex]="(pagination$ | async)!.pageIndex"
-    (page)="onPageChange($event)"
-    [hidePageSize]="true"
-    [showFirstLastButtons]="false"
-    aria-label="Select page">
-  </mat-paginator>
 
 } @else {
   <p>Loading book information...</p>
