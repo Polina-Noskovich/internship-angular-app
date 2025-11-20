@@ -11,11 +11,12 @@ export class BookService  {
   private readonly booksUrl = '/assets/data.json'
   private readonly books$ = new BehaviorSubject<Book[]>([]);
 
-  constructor(private readonly http: HttpClient) {
-    this.loadInitialBooks();
-  }
+  constructor(private readonly http: HttpClient) { }
 
   public getBooks(): Observable<Book[]> {
+    if (this.books$.getValue().length === 0) {
+      this.loadInitialBooks();
+    }
     return this.books$.asObservable();
   }
 
@@ -47,9 +48,6 @@ export class BookService  {
     this.http.get<Book[]>(this.booksUrl).subscribe({
       next: (books) => {
         this.books$.next(books);
-      },
-      error: (err) => {
-        console.error('Failed to load books', err);
       }
     });
   }
