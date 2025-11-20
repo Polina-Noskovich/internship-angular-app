@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, DestroyRef  } from '@angular/core';
 import { BookService } from './../services/book.service'; 
 import { Book } from './models/book-model'
-import { Subscription, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Observable, Subject, debounceTime, distinctUntilChanged, startWith, combineLatest, map } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-books',
@@ -9,53 +10,44 @@ import { Subscription, Subject, debounceTime, distinctUntilChanged } from 'rxjs'
   templateUrl: './books-page.html',
   styleUrl: './books-page.scss',
 })
-export class BooksPage implements OnInit, OnDestroy {
+export class BooksPage implements OnInit {
+
+  protected filteredBooks$!: Observable<Book[]>;
+  protected searchTerm$!: Observable<string>;
+
   private readonly searchTerms$ = new Subject<string>();
-
-  protected filteredBooks: Book[] = [];
-  protected searchTerm: string = '';
-
   private allBooks: Book[] = [];
-  private subscriptions: Subscription = new Subscription();
 
-  constructor(private readonly bookService: BookService) {}
+  constructor(private readonly bookService: BookService, private readonly destroyRef: DestroyRef) {}
 
   public ngOnInit(): void {
-    const booksSub = this.bookService.getBooks().subscribe(books => {
-      this.allBooks = books;
-      this.filterBooks(this.searchTerm);
-    });
+    const allBooks$ = this.bookService.getBooks();
 
-    const searchSub = this.searchTerms$.pipe(
+    this.searchTerm$ = this.searchTerms$.pipe(
       debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(term => {
-      this.searchTerm = term;
-      this.filterBooks(term);
-    });
+      distinctUntilChanged(),
+      startWith('')
+    );
 
-    this.subscriptions.add(booksSub);
-    this.subscriptions.add(searchSub);
-
-}
+    this.filteredBooks$ = combineLatest([
+      allBooks$,
+      this.searchTerm$
+    ]).pipe(
+      map(([books, term]) => {
+        this.allBooks = books;
+        return this.filterBooks(books, term);
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    );
+  }
 
   protected onSearchInput(value: string): void {
     this.searchTerms$.next(value.toLowerCase());
   }
-
-  private filterBooks(term: string) {
-    this.filteredBooks = term ?
-      this.allBooks.filter(book => 
-        book.name.toLowerCase().includes(term) ||
-        book.type.toLowerCase().includes(term)
-      )
-    : [...this.allBooks];
-  }
   
   public createNewBook(): void {
-    const maxId = this.allBooks.length > 0 ? Math.max(...this.allBooks.map(book => book.id)) : 0;
+    const maxId = this.allBooks.length > 0 ? Math.max(...this.allBooks.map(book => book.id)) : 0;    
     const nextId = maxId + 1;
-
     const newBook: Book = {
       id: nextId,
       name: 'New Book',
@@ -68,10 +60,15 @@ export class BooksPage implements OnInit, OnDestroy {
   }
 
   protected onDelete(bookId: number): void {
-    this.bookService.deleteBook(bookId);
-  }
+    this.bookService.deleteBook(bookId); 
+   }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  private filterBooks(books: Book[], term: string): Book[] {
+    return term
+      ? books.filter(book => 
+          book.name.toLowerCase().includes(term) ||
+          book.type.toLowerCase().includes(term)
+        )
+      : [...books];
   }
 }
