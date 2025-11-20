@@ -11,13 +11,12 @@ import { Subscription, Subject, debounceTime, distinctUntilChanged } from 'rxjs'
 })
 export class BooksPage implements OnInit, OnDestroy {
   private readonly searchTerms$ = new Subject<string>();
-  private searchSubsription: Subscription = new Subscription();
 
   protected filteredBooks: Book[] = [];
   protected searchTerm: string = '';
 
   private allBooks: Book[] = [];
-  private bookSubscription: Subscription = new Subscription();
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private readonly bookService: BookService) {}
 
@@ -35,8 +34,8 @@ export class BooksPage implements OnInit, OnDestroy {
       this.filterBooks(term);
     });
 
-    this.bookSubscription.add(booksSub);
-    this.bookSubscription.add(searchSub);
+    this.subscriptions.add(booksSub);
+    this.subscriptions.add(searchSub);
 
 }
 
@@ -73,6 +72,6 @@ export class BooksPage implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.bookSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }
