@@ -14,7 +14,7 @@
 
   <app-book-list
     [books]="(filteredBooks$ | async) || []"
-    [searchTerm]="(searchTerm$ | async) || ''"
+    [searchTerm]="(searchValue$ | async) || ''"
     (deleteBook)="onDelete($event)"
   >
   </app-book-list>

@@ -45,11 +45,8 @@ export class BookService  {
   }
 
   private loadInitialBooks(): void {
-    this.http.get<Book[]>(this.booksUrl).subscribe({
-      next: (books) => {
+    this.http.get<Book[]>(this.booksUrl).subscribe(books => {
         this.books$.next(books);
-      }
-    });
+      });
   }
-
 }

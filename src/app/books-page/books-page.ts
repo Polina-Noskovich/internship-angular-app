@@ -1,7 +1,7 @@
 import { Component, OnInit, DestroyRef  } from '@angular/core';
 import { BookService } from './../services/book.service'; 
 import { Book } from './models/book-model'
-import { Observable, Subject, debounceTime, distinctUntilChanged, startWith, combineLatest, map } from 'rxjs';
+import { Observable, BehaviorSubject, debounceTime, distinctUntilChanged, startWith, combineLatest, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -13,9 +13,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class BooksPage implements OnInit {
 
   protected filteredBooks$!: Observable<Book[]>;
-  protected searchTerm$!: Observable<string>;
+  protected readonly searchValue$ = new BehaviorSubject<string>('');
 
-  private readonly searchTerms$ = new Subject<string>();
   private allBooks: Book[] = [];
 
   constructor(private readonly bookService: BookService, private readonly destroyRef: DestroyRef) {}
@@ -23,15 +22,12 @@ export class BooksPage implements OnInit {
   public ngOnInit(): void {
     const allBooks$ = this.bookService.getBooks();
 
-    this.searchTerm$ = this.searchTerms$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      startWith('')
-    );
-
     this.filteredBooks$ = combineLatest([
       allBooks$,
-      this.searchTerm$
+      this.searchValue$.pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
     ]).pipe(
       map(([books, term]) => {
         this.allBooks = books;
@@ -42,7 +38,7 @@ export class BooksPage implements OnInit {
   }
 
   protected onSearchInput(value: string): void {
-    this.searchTerms$.next(value.toLowerCase());
+    this.searchValue$.next(value.toLowerCase());
   }
   
   public createNewBook(): void {
