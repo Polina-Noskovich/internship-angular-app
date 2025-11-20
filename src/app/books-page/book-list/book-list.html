@@ -11,7 +11,7 @@
     </thead>
     <tbody>
             @for (book of books; track book.id) {
-                <tr [routerLink]="['/pages', book.id]">
+                <tr [routerLink]="['/books', book.id, 'pages']">
                     <td [innerHTML]="book.id + '. ' + book.name | highlight : searchTerm"></td>
                     <td [innerHTML]="book.type | highlight : searchTerm : '#fff3cd'"></td>
                     <td>{{ book.size }}</td>

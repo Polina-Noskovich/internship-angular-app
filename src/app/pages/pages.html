@@ -12,7 +12,7 @@
   @if ((paginatedPages$ | async)?.length) {
     <div class="pages-grid">
       @for (page of (paginatedPages$ | async); track page) {
-        <a [routerLink]="['/page-detail', book.id, page]">
+        <a [routerLink]="['/books', book.id, 'pages', page]">
           <div class="page-square">
             <span class="page-number">{{ page }}</span>
           </div>

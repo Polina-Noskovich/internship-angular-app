@@ -1,15 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Dashboard } from './dashboard/dashboard';
+import { BooksPage } from './books-page/books-page';
+import { Pages } from './pages/pages';
+import { PageDetail } from './page-detail/page-detail';
+import { BooksLayout } from './books-page/books-layout/books-layout'; 
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  { path: 'books', loadChildren: () => import('./books-page/books-page.module').then(m => m.BooksPageModule) },
-  { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-  { path: 'pages/:bookId', loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
-  { path: 'pages', loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
-  { path: 'page-detail/:bookId/:pageNumber', loadChildren: () => import('./page-detail/page-detail.module').then(m => m.PageDetailModule) },];
+  { path: 'dashboard', component: Dashboard },
+  { path: 'books', component: BooksLayout, 
+    children: [
+      {
+        path: '',
+        component: BooksPage 
+      },
+      { 
+        path: ':bookId/pages',
+        component: Pages
+      },
+      { 
+        path: ':bookId/pages/:pageNumber', 
+        component: PageDetail
+      }
+    ]
+  },
+];
 
-@NgModule({
+  @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 }) 

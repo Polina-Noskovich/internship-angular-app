@@ -4,11 +4,13 @@ import { BooksPage } from './books-page';
 import { BookListModule } from './book-list/book-list.module'; 
 import { Autofocus } from './directives/autofocus.directive';
 import { BooksRoutingModule } from './books-page-routing.module';
+import { BooksLayout } from './books-layout/books-layout';
 
 @NgModule({
   declarations: [
     BooksPage,
-    Autofocus
+    Autofocus,
+    BooksLayout
   ],
   imports: [
     CommonModule,
