@@ -12,8 +12,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class BooksPage implements OnInit {
 
-  protected filteredBooks$!: Observable<Book[]>;
   protected readonly searchValue$ = new BehaviorSubject<string>('');
+  protected filteredBooks$!: Observable<Book[]>;
 
   private allBooks: Book[] = [];
 
