@@ -14,8 +14,7 @@ export class PageDetail implements OnInit {
   protected book$!: Observable<Book | undefined>;
   protected pageNumber$!: Observable<number>;
 
-  @ViewChild('pageCanvas') private canvasRef!: ElementRef<HTMLCanvasElement>;
-  private canvasContext: CanvasRenderingContext2D | null = null;
+  @ViewChild('pageCanvas') private readonly canvasRef!: ElementRef<HTMLCanvasElement>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -40,8 +39,7 @@ export class PageDetail implements OnInit {
   }
 
   private drawPageLines(): void {
-    if (!this.canvasRef || !this.canvasRef.nativeElement) {
-      console.error('Canvas element not found!');
+    if (!this.canvasRef?.nativeElement) {
       return;
     }
 
