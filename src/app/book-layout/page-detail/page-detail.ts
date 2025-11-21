@@ -1,8 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
-import { Book } from '../books-page/models/book-model';
-import { BookService } from '../../services/book.service';
+import { Book } from '../../store/books/books.model';
+import { Store } from '@ngxs/store';
+import { GetBooks } from '../../store/books/books.actions';
+import { BooksSelectors } from '../../store/books/books.selectors';
 
 @Component({
   selector: 'app-page-detail',
@@ -18,10 +20,12 @@ export class PageDetail implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly bookService: BookService,
+    private readonly store: Store,
   ) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(new GetBooks());
+
     this.pageNumber$ = this.route.paramMap.pipe(
       map(params => Number(params.get('pageNumber')))
     );
@@ -29,8 +33,8 @@ export class PageDetail implements OnInit {
     this.book$ = this.route.paramMap.pipe(
       switchMap(params => {
         const bookId = Number(params.get('bookId'));
-        return this.bookService.getBookById(bookId);
-      }),
+        return this.store.select(BooksSelectors.getBookById(bookId));
+      })
     );
   }
 

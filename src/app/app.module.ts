@@ -6,6 +6,8 @@ import { App } from './app';
 import { HttpClientModule } from '@angular/common/http';
 import { BookCountModule } from './book-count/book-count.module';
 import { BookLayoutModule } from './book-layout/book-layout.module';
+import { BooksState } from './store/books/books.state';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import { BookLayoutModule } from './book-layout/book-layout.module';
     AppRoutingModule,
     HttpClientModule,
     BookCountModule,
-    BookLayoutModule
+    BookLayoutModule,
+    NgxsModule.forRoot([BooksState])
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

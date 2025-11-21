@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookLayoutRoutingModule } from './book-layout-routing.module';
 import { BooksPageModule } from './books-page/books-page.module';
 import { PagesModule } from './pages/pages.module';
 import { PageDetailModule } from './page-detail/page-detail.module';
 import { BooksLayout } from './books-layout';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -12,10 +12,10 @@ import { BooksLayout } from './books-layout';
   ],
   imports: [
     CommonModule,
-    BookLayoutRoutingModule,
     BooksPageModule,
     PagesModule,
-    PageDetailModule
+    PageDetailModule,
+    RouterModule
   ]
 })
 export class BookLayoutModule { }

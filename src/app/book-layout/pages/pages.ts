@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, map, switchMap, combineLatest } from 'rxjs';
-import { Book } from '../books-page/models/book-model';
-import { BookService } from '../../services/book.service';
+import { Book } from '../../store/books/books.model';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
+import { GetBooks } from '../../store/books/books.actions';
+import { BooksSelectors } from '../../store/books/books.selectors';
 
 @Component({
   selector: 'app-pages',
@@ -24,14 +26,16 @@ export class Pages implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly bookService: BookService
+    private readonly store: Store
   ) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(new GetBooks());
+
     this.book$ = this.route.paramMap.pipe(
       switchMap(params => {
         const bookId = Number(params.get('bookId'));
-        return this.bookService.getBookById(bookId);
+        return this.store.select(BooksSelectors.getBookById(bookId));
       })
     );
 

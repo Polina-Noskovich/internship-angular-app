@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from '../services/book.service';
 import { Observable } from 'rxjs';
+import { BooksSelectors } from '../store/books/books.selectors';
+import { GetBooks } from '../store/books/books.actions'; 
+import { Select, Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,12 +12,15 @@ import { Observable } from 'rxjs';
 })
 
 export class BookCount implements OnInit { 
-  protected readonly projectName: string = 'Internship Book App';
-  protected bookCount$!: Observable<number>;
 
-  constructor(private readonly bookService: BookService) {}
+  protected readonly projectName: string = 'Internship Book App';
+
+  @Select(BooksSelectors.getBooksCount)
+  protected readonly bookCount$!: Observable<number>;
+
+  constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.bookCount$ = this.bookService.getBooksCount();
+    this.store.dispatch(new GetBooks());
   }
 }
