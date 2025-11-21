@@ -1,0 +1,44 @@
+.page-header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-weight: 500;
+  }
+  
+  .back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--color-primary);
+    
+    &:hover {
+      text-decoration: underline;
+    }
+
+    mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .placeholder {
+    flex-basis: 90px;
+  }
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center; 
+  margin-top: 2rem;
+}
+
+canvas {
+  border: 1px solid var(--color-border); 
+  background-color: var(--color-white);  
+  display: block; 
+}

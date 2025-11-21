@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Angular In-Depth",
+    "type": "Design Book",
+    "size": "5.8 MB",
+    "createdAt": "2024-01-15T12:00:00Z",
+    "pages": 12
+  },
+  {
+    "id": 2,
+    "name": "RxJS for Professionals",
+    "type": "Design Book",
+    "size": "3.1 MB",
+    "createdAt": "2024-03-22T15:30:00Z",
+    "pages": 32
+  },
+  {
+    "id": 3,
+    "name": "Server Setup Guide",
+    "type": "Installation Book",
+    "size": "10.2 MB",
+    "createdAt": "2024-05-30T10:00:00Z",
+    "pages": 15
+  },
+  {
+    "id": 4,
+    "name": "Agile Project Planning",
+    "type": "Item Schedule",
+    "size": "1.5 MB",
+    "createdAt": "2024-08-10T09:00:00Z",
+    "pages": 8
+  },
+  {
+    "id": 5,
+    "name": "UI Component Library Specs",
+    "type": "Item Schedule",
+    "size": "0.9 MB",
+    "createdAt": "2025-10-01T18:00:00Z",
+    "pages": 10
+  },
+  {
+    "id": 6,
+    "name": "Advanced TypeScript Patterns",
+    "type": "Design Book",
+    "size": "4.2 MB",
+    "createdAt": "2025-11-05T14:20:00Z",
+    "pages": 22
+  }
+]

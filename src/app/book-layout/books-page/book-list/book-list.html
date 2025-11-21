@@ -11,21 +11,22 @@
     </thead>
     <tbody>
             @for (book of books; track book.id) {
-                <tr>
+                <tr [routerLink]="['/books', book.id, 'pages']">
                     <td [innerHTML]="book.id + '. ' + book.name | highlight : searchTerm"></td>
                     <td [innerHTML]="book.type | highlight : searchTerm : '#fff3cd'"></td>
                     <td>{{ book.size }}</td>
                     <td>{{ book.createdAt | date: 'dd.MM.yyyy' }}</td>
                     <td>{{ book.pages }}</td>
                     <td class="action-cell">
-                        <div class="menu-container">
-                            <button class="menu-batton" (click)="toggleMenu(book.id)">⋮</button>
-                            @if (activeMenuId === book.id) {
-                                <div class="menu">
-                                    <button (click)="onDelete(book.id)">Delete</button>
-                                </div>
-                            }
-                        </div>
+                        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="onDelete(book.id)">
+                                <mat-icon>delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
                     </td>
                 </tr>
             }

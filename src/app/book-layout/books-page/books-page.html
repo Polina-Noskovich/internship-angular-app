@@ -6,15 +6,15 @@
       #searchInput
       type="text"
       placeholder="Search..."
-      (keyup.enter)="search(searchInput.value)"
+      (input)="onSearchInput(searchInput.value)"
       appAutofocus
     />
     <button class="create-button" (click)="createNewBook()">Create new book</button>
   </div>
 
   <app-book-list
-    [books]="filteredBooks"
-    [searchTerm]="searchTerm"
+    [books]="(filteredBooks$ | async) || []"
+    [searchTerm]="(searchValue$ | async) || ''"
     (deleteBook)="onDelete($event)"
   >
   </app-book-list>

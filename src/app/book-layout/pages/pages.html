@@ -1,0 +1,43 @@
+@if (book$ | async; as book) {
+
+  <div class="page-header">
+    <a routerLink="/books" class="back-link">
+      <mat-icon>arrow_back_ios</mat-icon>
+      <span>All books</span>
+    </a>
+    <h1>{{ book.name }}</h1>
+    <div class="placeholder"></div>
+  </div>
+
+  @let pagination = pagination$ | async;
+  @let pages = paginatedPages$ | async;
+  
+  @if (pagination && pages?.length) {
+    
+    <div class="pages-grid">
+      @for (page of pages; track page) {
+        <a [routerLink]="['/books', book.id, 'pages', page]">
+          <div class="page-square">
+            <span class="page-number">{{ page }}</span>
+          </div>
+        </a>
+      }
+    </div>
+
+    <mat-paginator
+      [length]="(totalPages$ | async) ?? 0"
+      [pageSize]="pagination.pageSize"
+      [pageIndex]="pagination.pageIndex"
+      (page)="onPageChange($event)"
+      [hidePageSize]="true"
+      [showFirstLastButtons]="false"
+      aria-label="Select page">
+    </mat-paginator>
+
+  } @else {
+      <p>This book has no pages.</p>
+  }
+
+} @else {
+  <p>Loading book information...</p>
+}

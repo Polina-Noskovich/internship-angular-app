@@ -8,12 +8,12 @@ import { BooksRoutingModule } from './books-page-routing.module';
 @NgModule({
   declarations: [
     BooksPage,
-    Autofocus
+    Autofocus,
   ],
   imports: [
     CommonModule,
     BookListModule,
     BooksRoutingModule,
-    ]
+  ],
 })
 export class BooksPageModule { }

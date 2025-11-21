@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Book } from '../books-page/models/book-model';
+import { Book } from '../book-layout/books-page/models/book-model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs';
-
-const MOCK_BOOKS: Book[] = [
-  { id: 1, name: 'Angular Basics', type: 'Design Book', size: '2.5 MB', createdAt: new Date('2023-01-15'), pages: 150 },
-  { id: 2, name: 'Project Planning', type: 'Item Schedule', size: '1.2 MB', createdAt: new Date('2023-03-22'), pages: 45 },
-  { id: 3, name: 'Server Installation Guide', type: 'Installation Book', size: '10.1 MB', createdAt: new Date('2023-05-30'), pages: 320 },
-  { id: 4, name: 'Advanced Angular Design', type: 'Design Book', size: '5.8 MB', createdAt: new Date('2023-08-10'), pages: 450 },
-  { id: 5, name: 'Component Library', type: 'Item Schedule', size: '0.8 MB', createdAt: new Date('2023-10-01'), pages: 80 },
-];
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService  {
-  private readonly books$ = new BehaviorSubject<Book[]>(MOCK_BOOKS);
-  constructor() {}
+  private readonly booksUrl = '/assets/data.json'
+  private readonly books$ = new BehaviorSubject<Book[]>([]);
+
+  constructor(private readonly http: HttpClient) { }
 
   public getBooks(): Observable<Book[]> {
+    if (!this.books$.getValue().length) {
+      this.loadInitialBooks();
+    }
     return this.books$.asObservable();
   }
 
@@ -38,5 +36,17 @@ export class BookService  {
     const currentBooks = this.books$.getValue();
     const updatedBooks = currentBooks.filter(book => book.id !== bookId);
     this.books$.next(updatedBooks);
+  }
+  
+  public getBookById(id: number): Observable<Book | undefined> {
+    return this.getBooks().pipe(
+      map(books => books.find(book => book.id === id))
+    );
+  }
+
+  private loadInitialBooks(): void {
+    this.http.get<Book[]>(this.booksUrl).subscribe(books => {
+        this.books$.next(books);
+      });
   }
 }
