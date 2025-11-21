@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: var(--color-dark-header);
+  background-color: var(--color-text-primary);
   color: var(--color-white);
 }
 
@@ -39,8 +39,12 @@
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
     white-space: nowrap;
+
+    &:hover {
+      background-color: var(--color-dark-header);
+    }
 }
 
 main {

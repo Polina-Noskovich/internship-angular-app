@@ -4,12 +4,7 @@ import { BooksPage } from './books-page/books-page';
 import { Pages } from './pages/pages';
 import { PageDetail } from './page-detail/page-detail';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'list', pathMatch: 'full' },
-  { path: 'list', component: BooksPage },
-  { path: ':bookId/pages', component: Pages },
-  { path: ':bookId/pages/:pageNumber', component: PageDetail },
-];
+const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

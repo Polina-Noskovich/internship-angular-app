@@ -29,9 +29,9 @@ export class BooksPage implements OnInit {
         distinctUntilChanged()
       )
     ]).pipe(
-      map(([books, term]) => {
+      map(([books, searchValue]) => {
         this.allBooks = books;
-        return this.filterBooks(books, term);
+        return this.filterBooks(books, searchValue);
       }),
       takeUntilDestroyed(this.destroyRef)
     );
@@ -59,11 +59,11 @@ export class BooksPage implements OnInit {
     this.bookService.deleteBook(bookId); 
    }
 
-  private filterBooks(books: Book[], term: string): Book[] {
-    return term
+  private filterBooks(books: Book[], searchValue: string): Book[] {
+    return searchValue
       ? books.filter(book => 
-          book.name.toLowerCase().includes(term) ||
-          book.type.toLowerCase().includes(term)
+          book.name.toLowerCase().includes(searchValue) ||
+          book.type.toLowerCase().includes(searchValue)
         )
       : [...books];
   }
