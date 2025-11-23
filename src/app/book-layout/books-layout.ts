@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   standalone: false,
   templateUrl: './books-layout.html',
 })
-export class BooksLayout {
-
-}
+export class BooksLayout {}
