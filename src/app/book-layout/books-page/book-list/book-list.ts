@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Book } from '../../../store/books/books.model';
 
 @Component({
@@ -8,10 +8,10 @@ import { Book } from '../../../store/books/books.model';
   styleUrl: './book-list.scss',
 })
 export class BookList {
-  @Input() public books: Book[] = [];
-  @Input() public searchTerm: string = '';
-  
-  @Output() public readonly deleteBook = new EventEmitter<number>();
+  public books = input.required<Book[]>();
+  public searchTerm = input<string>('');
+
+  public readonly deleteBook = output<number>();
 
   protected onDelete(bookId: number): void {
     this.deleteBook.emit(bookId);

@@ -1,4 +1,4 @@
-import { Component, OnInit, DestroyRef } from '@angular/core';
+import { Component, OnInit, DestroyRef, Signal } from '@angular/core';
 import { Book } from '../../store/books/books.model';
 import {
   Observable,
@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { GetBooks, AddBook, DeleteBook } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-books',
@@ -20,26 +21,21 @@ import { BooksSelectors } from '../../store/books/books.selectors';
   templateUrl: './books-page.html',
   styleUrl: './books-page.scss',
 })
-export class BooksPage implements OnInit {
+export class BooksPage {
   protected readonly searchValue$ = new BehaviorSubject<string>('');
-  protected filteredBooks$!: Observable<Book[]>;
+  protected filteredBooks: Signal<Book[] | undefined>; // Убрали `!`
 
-  constructor(private readonly store: Store, private readonly destroyRef: DestroyRef) {}
-
-  public ngOnInit(): void {
+  constructor(private readonly store: Store) {
     this.store.dispatch(new GetBooks());
 
     const allBooks$ = this.store.select(BooksSelectors.getBooksList);
 
-    this.filteredBooks$ = combineLatest([
+    const filteredBooks$ = combineLatest([
       allBooks$,
       this.searchValue$.pipe(debounceTime(300), distinctUntilChanged()),
-    ]).pipe(
-      map(([books, searchValue]) => {
-        return this.filterBooks(books, searchValue);
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    );
+    ]).pipe(map(([books, searchValue]) => this.filterBooks(books, searchValue)));
+
+    this.filteredBooks = toSignal(filteredBooks$);
   }
 
   protected onSearchInput(value: string): void {
