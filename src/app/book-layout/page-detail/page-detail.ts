@@ -5,10 +5,18 @@ import { Book } from '../../store/books/books.model';
 import { Store } from '@ngxs/store';
 import { GetBooks } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-page-detail',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule
+  ],
   templateUrl: './page-detail.html',
   styleUrl: './page-detail.scss',
 })

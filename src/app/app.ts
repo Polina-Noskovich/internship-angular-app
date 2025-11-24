@@ -1,10 +1,20 @@
-import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: false,
+  standalone: true,
+  imports: [
+    HttpClientModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    CommonModule
+  ],
+  providers: [],
   styleUrl: './app.scss'
 })
 export class App {

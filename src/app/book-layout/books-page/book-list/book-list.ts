@@ -1,9 +1,23 @@
 import { Component, input, output } from '@angular/core';
 import { Book } from '../../../store/books/books.model';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { HighlightPipe } from '../pipes/highlight.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-book-list',
-  standalone: false,
+  standalone: true,
+  imports: [
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    HighlightPipe,
+    CommonModule
+  ],
   templateUrl: './book-list.html',
   styleUrl: './book-list.scss',
 })

@@ -3,10 +3,14 @@ import { BooksSelectors } from '../store/books/books.selectors';
 import { GetBooks } from '../store/books/books.actions';
 import { Store } from '@ngxs/store';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-dashboard',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+  ],
   templateUrl: './book-count.html',
   styleUrl: './book-count.scss',
 })

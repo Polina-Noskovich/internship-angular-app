@@ -6,10 +6,20 @@ import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngxs/store';
 import { GetBooks } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-pages',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+    MatPaginatorModule
+  ],
   templateUrl: './pages.html',
   styleUrl: './pages.scss',
 })
