@@ -5,7 +5,6 @@ import { Book } from '../../store/books/books-state.model';
 import { Store } from '@ngxs/store';
 import { GetBooks } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -14,7 +13,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
   selector: 'app-page-detail',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     MatIconModule
   ],

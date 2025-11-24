@@ -2,14 +2,11 @@ import { Component, Signal, signal } from '@angular/core';
 import { BooksSelectors } from '../store/books/books.selectors';
 import { GetBooks } from '../store/books/books.actions';
 import { Store } from '@ngxs/store';
-import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  imports: [],
   templateUrl: './book-count.component.html',
   styleUrl: './book-count.component.scss',
 })
