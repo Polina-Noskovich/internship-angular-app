@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, signal } from '@angular/core';
 import { BooksSelectors } from '../store/books/books.selectors';
 import { GetBooks } from '../store/books/books.actions';
 import { Store } from '@ngxs/store';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './book-count.scss',
 })
 export class BookCount {
-  protected readonly projectName: string = 'Internship Book App';
+  protected readonly projectName = signal<string>('Internship Book App');
   protected readonly bookCount: Signal<number>;
 
   constructor(private readonly store: Store) {

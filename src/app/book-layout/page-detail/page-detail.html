@@ -1,10 +1,10 @@
-@if (book$ | async; as book) {
+@if (book(); as book) {
   <div class="page-header">
     <a [routerLink]="['/books', book.id, 'pages']" class="back-link">
       <mat-icon>arrow_back_ios</mat-icon>
       <span>All pages</span>
     </a>
-    <h1>Page {{ pageNumber$ | async }}</h1>
+    <h1>Page {{ pageNumber() }}</h1>
     <div class="placeholder"></div>
   </div>
 

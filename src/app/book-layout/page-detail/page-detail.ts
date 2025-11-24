@@ -1,6 +1,6 @@
-import { Component, OnInit, ElementRef, viewChild, effect } from '@angular/core';
+import { Component, ElementRef, viewChild, effect, Signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map, switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { Book } from '../../store/books/books.model';
 import { Store } from '@ngxs/store';
 import { GetBooks } from '../../store/books/books.actions';
@@ -8,6 +8,7 @@ import { BooksSelectors } from '../../store/books/books.selectors';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-page-detail',
@@ -20,9 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './page-detail.html',
   styleUrl: './page-detail.scss',
 })
-export class PageDetail implements OnInit {
-  protected book$!: Observable<Book | undefined>;
-  protected pageNumber$!: Observable<number>;
+export class PageDetail {
+  protected book: Signal<Book | undefined>;
+  protected pageNumber: Signal<number | undefined>;
 
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('pageCanvas');
 
@@ -30,24 +31,27 @@ export class PageDetail implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly store: Store,
   ) {
+
+    const paramMap$ = this.route.paramMap;
+
+    this.pageNumber = toSignal(
+      paramMap$.pipe(map(params => Number(params.get('pageNumber'))))
+    );
+
+    this.book = toSignal(
+      paramMap$.pipe(
+        switchMap(params => {
+          const bookId = Number(params.get('bookId'));
+          return this.store.select<Book | undefined>(BooksSelectors.getBookById(bookId));
+        })
+      )
+    );
+
     effect(() => {
       this.drawPageLines();
     })
-  }
 
-  public ngOnInit(): void {
     this.store.dispatch(new GetBooks());
-
-    this.pageNumber$ = this.route.paramMap.pipe(
-      map(params => Number(params.get('pageNumber')))
-    );
-
-    this.book$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        const bookId = Number(params.get('bookId'));
-        return this.store.select(BooksSelectors.getBookById(bookId));
-      })
-    );
   }
 
   private drawPageLines(): void {

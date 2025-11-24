@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, signal, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, BehaviorSubject, map, switchMap, combineLatest } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { Book } from '../../store/books/books.model';
 import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngxs/store';
@@ -23,12 +24,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   templateUrl: './pages.html',
   styleUrl: './pages.scss',
 })
-export class Pages implements OnInit {
-  protected book$!: Observable<Book | undefined>;
-  protected paginatedPages$!: Observable<number[]>;
-  protected totalPages$!: Observable<number>;
+export class Pages {
+  protected book: Signal<Book | undefined>;
+  protected paginatedPages: Signal<number[]>;
+  protected totalPages: Signal<number>;
 
-  protected readonly pagination$ = new BehaviorSubject<PageEvent>({
+  protected readonly pagination = signal<PageEvent>({
     pageIndex: 0,
     pageSize: 10,
     length: 0,
@@ -37,37 +38,36 @@ export class Pages implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly store: Store
-  ) {}
+  ) {
+    this.book = toSignal(
+      this.route.paramMap.pipe(
+        switchMap(params => {
+          const bookId = Number(params.get('bookId'));
+          return this.store.select<Book | undefined>(BooksSelectors.getBookById(bookId));
+        })
+      )
+    );
 
-  public ngOnInit(): void {
+    const allPages = computed(() => {
+      const book = this.book();
+      return book ? Array.from({ length: book.pages }, (_,i) => i + 1) : [];
+    });
+
+    this.totalPages = computed(() => allPages().length);
+
+    this.paginatedPages = computed(() => {
+      const pages = allPages();
+      const paginationState = this.pagination();
+
+      const startIndex = paginationState.pageIndex * paginationState.pageSize;
+      const endIndex = startIndex + paginationState.pageSize;
+      return pages.slice(startIndex, endIndex);
+    });
+
     this.store.dispatch(new GetBooks());
-
-    this.book$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        const bookId = Number(params.get('bookId'));
-        return this.store.select(BooksSelectors.getBookById(bookId));
-      })
-    );
-
-    const allPages$ = this.book$.pipe(
-      map(book => book ? Array.from({ length: book.pages }, (_, i) => i + 1) : [])
-    );
-
-    this.totalPages$ = allPages$.pipe(map(pages => pages.length));
-    
-    this.paginatedPages$ = combineLatest([
-      allPages$,
-      this.pagination$
-    ]).pipe(
-      map(([allPages, pagination]) => {
-        const startIndex = pagination.pageIndex * pagination.pageSize;
-        const endIndex = startIndex + pagination.pageSize;
-        return allPages.slice(startIndex, endIndex);
-      })
-    );
   }
 
   protected onPageChange(event: PageEvent): void {
-    this.pagination$.next(event);
+    this.pagination.set(event);
   }
 }
