@@ -1,7 +1,7 @@
 import { Component, ElementRef, viewChild, effect, Signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
-import { Book } from '../../store/books/books.model';
+import { Book } from '../../store/books/books-state.model';
 import { Store } from '@ngxs/store';
 import { GetBooks } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
@@ -18,10 +18,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
     RouterModule,
     MatIconModule
   ],
-  templateUrl: './page-detail.html',
-  styleUrl: './page-detail.scss',
+  templateUrl: './page-detail.component.html',
+  styleUrl: './page-detail.component.scss',
 })
-export class PageDetail {
+export class PageDetailComponent {
   protected book: Signal<Book | undefined>;
   protected pageNumber: Signal<number | undefined>;
 

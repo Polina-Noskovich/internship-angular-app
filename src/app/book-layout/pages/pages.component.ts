@@ -2,7 +2,7 @@ import { Component, OnInit, Signal, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { Book } from '../../store/books/books.model';
+import { Book } from '../../store/books/books-state.model';
 import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngxs/store';
 import { GetBooks } from '../../store/books/books.actions';
@@ -21,10 +21,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatIconModule,
     MatPaginatorModule
   ],
-  templateUrl: './pages.html',
-  styleUrl: './pages.scss',
+  templateUrl: './pages.component.html',
+  styleUrl: './pages.component.scss',
 })
-export class Pages {
+export class PagesComponent {
   protected book: Signal<Book | undefined>;
   protected paginatedPages: Signal<number[]>;
   protected totalPages: Signal<number>;

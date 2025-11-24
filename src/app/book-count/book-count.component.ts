@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
   ],
-  templateUrl: './book-count.html',
-  styleUrl: './book-count.scss',
+  templateUrl: './book-count.component.html',
+  styleUrl: './book-count.component.scss',
 })
-export class BookCount {
+export class BookCountComponent {
   protected readonly projectName = signal<string>('Internship Book App');
   protected readonly bookCount: Signal<number>;
 

@@ -1,4 +1,4 @@
-import { Book } from "./books.model";
+import { Book } from "./books-state.model";
 
 export class GetBooks {
     public static readonly type = '[Books] Get books';

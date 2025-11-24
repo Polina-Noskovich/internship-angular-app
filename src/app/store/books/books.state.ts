@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { BooksStateModel, Book } from './books.model';
+import { BooksStateModel, Book } from './books-state.model';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';
 import { GetBooks, AddBook, DeleteBook } from './books.actions';

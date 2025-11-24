@@ -1,12 +1,12 @@
 import { Component, Signal } from '@angular/core';
-import { Book } from '../../store/books/books.model';
+import { Book } from '../../store/books/books-state.model';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, combineLatest, map, take } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { GetBooks, AddBook, DeleteBook } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Autofocus } from './directives/autofocus.directive';
-import { BookList } from './book-list/book-list';
+import { BookListComponent } from './book-list/book-list.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,13 +14,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     Autofocus,
-    BookList,
+    BookListComponent,
     CommonModule
   ],
-  templateUrl: './books-page.html',
-  styleUrl: './books-page.scss',
+  templateUrl: './books-page.component.html',
+  styleUrl: './books-page.component.scss',
 })
-export class BooksPage {
+export class BooksPageComponent {
   protected readonly searchValue$ = new BehaviorSubject<string>('');
   protected filteredBooks: Signal<Book[] | undefined>; 
 

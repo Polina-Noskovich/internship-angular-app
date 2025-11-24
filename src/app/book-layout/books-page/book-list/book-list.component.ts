@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Book } from '../../../store/books/books.model';
+import { Book } from '../../../store/books/books-state.model';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,10 +18,10 @@ import { CommonModule } from '@angular/common';
     HighlightPipe,
     CommonModule
   ],
-  templateUrl: './book-list.html',
-  styleUrl: './book-list.scss',
+  templateUrl: './book-list.component.html',
+  styleUrl: './book-list.component.scss',
 })
-export class BookList {
+export class BookListComponent {
   public books = input.required<Book[]>();
   public searchTerm = input<string>('');
 

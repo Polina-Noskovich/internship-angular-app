@@ -1,5 +1,5 @@
 import { Selector, createSelector } from '@ngxs/store';
-import { BooksStateModel, Book } from './books.model';
+import { BooksStateModel, Book } from './books-state.model';
 import { BooksState } from './books.state';
 
 export class BooksSelectors {
