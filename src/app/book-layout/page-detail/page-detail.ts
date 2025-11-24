@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, viewChild, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
 import { Book } from '../../store/books/books.model';
@@ -24,12 +24,16 @@ export class PageDetail implements OnInit {
   protected book$!: Observable<Book | undefined>;
   protected pageNumber$!: Observable<number>;
 
-  @ViewChild('pageCanvas') private readonly canvasRef!: ElementRef<HTMLCanvasElement>;
+  private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('pageCanvas');
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly store: Store,
-  ) {}
+  ) {
+    effect(() => {
+      this.drawPageLines();
+    })
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new GetBooks());
@@ -46,16 +50,12 @@ export class PageDetail implements OnInit {
     );
   }
 
-  public ngAfterViewInit(): void {
-    this.drawPageLines();
-  }
-
   private drawPageLines(): void {
-    if (!this.canvasRef?.nativeElement) {
-      return;
-    }
+    const canvasEl = this.canvasRef();
 
-    const canvas = this.canvasRef.nativeElement;
+    if (!canvasEl) { return; }
+
+    const canvas = canvasEl.nativeElement;
     const context = canvas.getContext('2d'); 
 
     if (context) {
