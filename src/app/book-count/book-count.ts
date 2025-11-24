@@ -2,7 +2,6 @@ import { Component, Signal } from '@angular/core';
 import { BooksSelectors } from '../store/books/books.selectors';
 import { GetBooks } from '../store/books/books.actions';
 import { Store } from '@ngxs/store';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common'; 
 
 @Component({
@@ -16,12 +15,11 @@ import { CommonModule } from '@angular/common';
 })
 export class BookCount {
   protected readonly projectName: string = 'Internship Book App';
-  protected bookCount: Signal<number | undefined>;
+  protected readonly bookCount: Signal<number>;
 
   constructor(private readonly store: Store) {
+    this.bookCount = this.store.selectSignal(BooksSelectors.getBooksCount);
+    
     this.store.dispatch(new GetBooks());
-
-    const bookCount$ = this.store.select(BooksSelectors.getBooksCount);
-    this.bookCount = toSignal(bookCount$);
   }
 }
