@@ -1,15 +1,6 @@
-import { Component, OnInit, DestroyRef, Signal } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { Book } from '../../store/books/books.model';
-import {
-  Observable,
-  BehaviorSubject,
-  debounceTime,
-  distinctUntilChanged,
-  combineLatest,
-  map,
-  take,
-} from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, combineLatest, map, take } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { GetBooks, AddBook, DeleteBook } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
@@ -23,7 +14,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class BooksPage {
   protected readonly searchValue$ = new BehaviorSubject<string>('');
-  protected filteredBooks: Signal<Book[] | undefined>; // Убрали `!`
+  protected filteredBooks: Signal<Book[] | undefined>; 
 
   constructor(private readonly store: Store) {
     this.store.dispatch(new GetBooks());

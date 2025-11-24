@@ -8,8 +8,7 @@ import { GetBooks, AddBook, DeleteBook } from './books.actions';
 @State<BooksStateModel>({
   name: 'books',
   defaults: {
-    books: [],
-    isLoading: false,
+    books: []
   },
 })
 @Injectable()
@@ -23,13 +22,11 @@ export class BooksState {
     if (ctx.getState().books.length > 0) {
       return;
     }
-    ctx.patchState({ isLoading: true });
 
     return this.http.get<Book[]>(this.booksUrl).pipe(
       tap((loadedBooks) => {
         ctx.patchState({
           books: loadedBooks,
-          isLoading: false,
         });
       })
     );

@@ -11,5 +11,4 @@ export interface Book {
 
 export interface BooksStateModel {
     books: Book[];
-    isLoading: boolean;
 }
