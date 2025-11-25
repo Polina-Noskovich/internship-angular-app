@@ -61,8 +61,6 @@ export class PagesComponent {
       const endIndex = startIndex + paginationState.pageSize;
       return pages.slice(startIndex, endIndex);
     });
-
-    this.store.dispatch(new GetBooks());
   }
 
   protected onPageChange(event: PageEvent): void {

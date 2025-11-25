@@ -16,7 +16,5 @@ export class BookCountComponent {
 
   constructor(private readonly store: Store) {
     this.bookCount = this.store.selectSignal(BooksSelectors.booksCount);
-    
-    this.store.dispatch(new GetBooks());
   }
 }

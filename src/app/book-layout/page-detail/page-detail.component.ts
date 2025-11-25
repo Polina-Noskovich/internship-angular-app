@@ -48,8 +48,6 @@ export class PageDetailComponent {
     effect(() => {
       this.drawPageLines();
     })
-
-    this.store.dispatch(new GetBooks());
   }
 
   private drawPageLines(): void {

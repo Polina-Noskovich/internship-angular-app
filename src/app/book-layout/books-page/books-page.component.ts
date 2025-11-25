@@ -25,8 +25,6 @@ export class BooksPageComponent {
   protected filteredBooks: Signal<Book[] | undefined>; 
 
   constructor(private readonly store: Store) {
-    this.store.dispatch(new GetBooks());
-
     const allBooks$ = this.store.select(BooksSelectors.books);
 
     const filteredBooks$ = combineLatest([
