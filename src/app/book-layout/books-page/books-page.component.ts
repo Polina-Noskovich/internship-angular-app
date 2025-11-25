@@ -2,7 +2,7 @@ import { Component, Signal } from '@angular/core';
 import { Book } from '../../store/books/books-state.model';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, combineLatest, map, take } from 'rxjs';
 import { Store } from '@ngxs/store';
-import { GetBooks, AddBook, DeleteBook } from '../../store/books/books.actions';
+import { AddBook, DeleteBook } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Autofocus } from './directives/autofocus.directive';

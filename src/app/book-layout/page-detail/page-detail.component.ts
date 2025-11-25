@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { Book } from '../../store/books/books-state.model';
 import { Store } from '@ngxs/store';
-import { GetBooks } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';

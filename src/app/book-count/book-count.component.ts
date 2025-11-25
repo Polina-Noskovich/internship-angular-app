@@ -1,6 +1,5 @@
 import { Component, Signal, signal } from '@angular/core';
 import { BooksSelectors } from '../store/books/books.selectors';
-import { GetBooks } from '../store/books/books.actions';
 import { Store } from '@ngxs/store';
 
 @Component({
