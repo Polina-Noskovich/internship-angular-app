@@ -18,35 +18,31 @@ export class BooksState {
   constructor(private readonly http: HttpClient) {}
 
   @Action(GetBooks)
-  getBooks(ctx: StateContext<BooksStateModel>) {
-    if (ctx.getState().books.length > 0) {
+  public getBooks({ getState, setState }: StateContext<BooksStateModel>) {
+    if (getState().books.length) {
       return;
     }
 
     return this.http.get<Book[]>(this.booksUrl).pipe(
       tap((loadedBooks) => {
-        ctx.patchState({
-          books: loadedBooks,
-        });
+        setState({ books: loadedBooks });
       })
     );
   }
 
   @Action(AddBook)
-  addBook(ctx: StateContext<BooksStateModel>, action: AddBook) {
-    const state = ctx.getState();
-    const updatedBooks = [...state.books, action.payload];
-
-    ctx.patchState({ books: updatedBooks });
+  public addBook({ getState, patchState }: StateContext<BooksStateModel>, { payload }: AddBook) {
+    const state = getState();
+    const updatedBooks = [...state.books, payload];
+    
+    patchState({ books: updatedBooks });
   }
 
   @Action(DeleteBook)
-  deleteBook(ctx: StateContext<BooksStateModel>, action: DeleteBook) {
-    const state = ctx.getState();
-    const filteredBooks = state.books.filter((book) => book.id !== action.payload);
+  public deleteBook({ getState, patchState }: StateContext<BooksStateModel>, { payload }: DeleteBook) {
+    const state = getState();
+    const filteredBooks = state.books.filter((book) => book.id !== payload);
 
-    ctx.patchState({
-      books: filteredBooks,
-    });
+    patchState({ books: filteredBooks });
   }
 }
