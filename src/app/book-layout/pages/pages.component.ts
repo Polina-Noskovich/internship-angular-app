@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, signal, computed } from '@angular/core';
+import { Component, Signal, signal, computed, inject  } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
@@ -22,9 +22,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   styleUrl: './pages.component.scss',
 })
 export class PagesComponent {
-  protected book: Signal<Book | undefined>;
-  protected paginatedPages: Signal<number[]>;
-  protected totalPages: Signal<number>;
+  private readonly route = inject(ActivatedRoute);
+  private readonly store = inject(Store);
+
+  protected readonly book: Signal<Book | undefined> = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const bookId = Number(params.get('bookId'));
+        return this.store.select<Book | undefined>(BooksSelectors.bookById(bookId));
+      })
+    )
+  );
 
   protected readonly pagination = signal<PageEvent>({
     pageIndex: 0,
@@ -32,35 +40,23 @@ export class PagesComponent {
     length: 0,
   });
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly store: Store
-  ) {
-    this.book = toSignal(
-      this.route.paramMap.pipe(
-        switchMap(params => {
-          const bookId = Number(params.get('bookId'));
-          return this.store.select<Book | undefined>(BooksSelectors.bookById(bookId));
-        })
-      )
-    );
+  private readonly allPages = computed(() => {
+    const book = this.book();
+    return book ? Array.from({ length: book.pages }, (_, i) => i + 1) : [];
+  });
 
-    const allPages = computed(() => {
-      const book = this.book();
-      return book ? Array.from({ length: book.pages }, (_,i) => i + 1) : [];
-    });
+  protected readonly totalPages = computed(() => this.allPages().length);
 
-    this.totalPages = computed(() => allPages().length);
-
-    this.paginatedPages = computed(() => {
-      const pages = allPages();
+  protected readonly paginatedPages = computed(() => {
+      const pages = this.allPages();
       const paginationState = this.pagination();
 
       const startIndex = paginationState.pageIndex * paginationState.pageSize;
       const endIndex = startIndex + paginationState.pageSize;
       return pages.slice(startIndex, endIndex);
-    });
-  }
+  });
+  
+  constructor() {}
 
   protected onPageChange(event: PageEvent): void {
     this.pagination.set(event);

@@ -1,4 +1,4 @@
-import { Component, ElementRef, viewChild, effect, Signal } from '@angular/core';
+import { Component, ElementRef, viewChild, effect, Signal, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { Book } from '../../store/books/books-state.model';
@@ -18,21 +18,27 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './page-detail.component.html',
   styleUrl: './page-detail.component.scss',
 })
-export class PageDetailComponent {
-  protected book: Signal<Book | undefined>;
-  protected pageNumber: Signal<number | undefined>;
+export class PageDetailComponent implements OnInit {
+  protected book!: Signal<Book | undefined>;
+  protected pageNumber!: Signal<number | undefined>;
 
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('pageCanvas');
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly store: Store,
+    private readonly injector: Injector
   ) {
+    effect(() => {
+      this.drawPageLines();
+    })
+  }
 
+  public ngOnInit(): void {
     const paramMap$ = this.route.paramMap;
 
     this.pageNumber = toSignal(
-      paramMap$.pipe(map(params => Number(params.get('pageNumber'))))
+      paramMap$.pipe(map(params => Number(params.get('pageNumber')))), { injector: this.injector }
     );
 
     this.book = toSignal(
@@ -41,12 +47,8 @@ export class PageDetailComponent {
           const bookId = Number(params.get('bookId'));
           return this.store.select<Book | undefined>(BooksSelectors.bookById(bookId));
         })
-      )
+      ), { injector: this.injector }
     );
-
-    effect(() => {
-      this.drawPageLines();
-    })
   }
 
   private drawPageLines(): void {
@@ -81,4 +83,4 @@ export class PageDetailComponent {
       context.stroke();
     }
   }
-  }
+}
