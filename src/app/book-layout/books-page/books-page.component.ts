@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, Injector, OnInit } from '@angular/core';
 import { Book } from '../../store/books/books-state.model';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, combineLatest, map, take } from 'rxjs';
 import { Store } from '@ngxs/store';
@@ -20,11 +20,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './books-page.component.html',
   styleUrl: './books-page.component.scss',
 })
-export class BooksPageComponent {
+export class BooksPageComponent implements OnInit {
   protected readonly searchValue$ = new BehaviorSubject<string>('');
-  protected filteredBooks: Signal<Book[] | undefined>; 
+  protected filteredBooks!: Signal<Book[] | undefined>; 
 
-  constructor(private readonly store: Store) {
+  constructor(private readonly store: Store, private readonly injector: Injector) {}
+
+  public ngOnInit(): void {
     const allBooks$ = this.store.select(BooksSelectors.books);
 
     const filteredBooks$ = combineLatest([
@@ -32,7 +34,7 @@ export class BooksPageComponent {
       this.searchValue$.pipe(debounceTime(300), distinctUntilChanged()),
     ]).pipe(map(([books, searchValue]) => this.filterBooks(books, searchValue)));
 
-    this.filteredBooks = toSignal(filteredBooks$);
+    this.filteredBooks = toSignal(filteredBooks$, { injector: this.injector});
   }
 
   protected onSearchInput(value: string): void {
@@ -40,22 +42,18 @@ export class BooksPageComponent {
   }
 
   protected createNewBook(): void {
-    this.store
-      .select(BooksSelectors.books)
-      .pipe(take(1))
-      .subscribe((allBooks) => {
-        const maxId = allBooks.length > 0 ? Math.max(...allBooks.map((book) => book.id)) : 0;
-        const nextId = maxId + 1;
-        const newBook: Book = {
-          id: nextId,
-          name: 'New Book',
-          type: 'Design Book',
-          size: '1 MB',
-          createdAt: new Date(),
-          pages: 10,
-        };
-        this.store.dispatch(new AddBook(newBook));
-      });
+    const allBooks = this.store.selectSnapshot(BooksSelectors.books);
+    const maxId = allBooks.length > 0 ? Math.max(...allBooks.map((book) => book.id)) : 0;
+    const nextId = maxId + 1;
+    const newBook: Book = {
+      id: nextId,
+      name: 'New Book',
+      type: 'Design Book',
+      size: '1 MB',
+      createdAt: new Date(),
+      pages: 10,
+    };
+    this.store.dispatch(new AddBook(newBook));
   }
 
   protected onDelete(bookId: number): void {
