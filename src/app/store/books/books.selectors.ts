@@ -4,16 +4,16 @@ import { BooksState } from './books.state';
 
 export class BooksSelectors {
   @Selector([BooksState])
-  static getBooksList(state: BooksStateModel): Book[] {
+  public static books(state: BooksStateModel): Book[] {
     return state.books;
   }
 
   @Selector([BooksState])
-  static getBooksCount(state: BooksStateModel): number {
+  public static booksCount(state: BooksStateModel): number {
     return state.books.length;
   }
 
-  static getBookById(id: number) {
+  public static bookById(id: number) {
     return createSelector([BooksState], (state: BooksStateModel) =>
       state.books.find((book) => book.id === id)
     );

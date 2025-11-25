@@ -40,7 +40,7 @@ export class PageDetailComponent {
       paramMap$.pipe(
         switchMap(params => {
           const bookId = Number(params.get('bookId'));
-          return this.store.select<Book | undefined>(BooksSelectors.getBookById(bookId));
+          return this.store.select<Book | undefined>(BooksSelectors.bookById(bookId));
         })
       )
     );

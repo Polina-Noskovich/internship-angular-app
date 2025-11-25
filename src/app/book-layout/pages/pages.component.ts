@@ -41,7 +41,7 @@ export class PagesComponent {
       this.route.paramMap.pipe(
         switchMap(params => {
           const bookId = Number(params.get('bookId'));
-          return this.store.select<Book | undefined>(BooksSelectors.getBookById(bookId));
+          return this.store.select<Book | undefined>(BooksSelectors.bookById(bookId));
         })
       )
     );

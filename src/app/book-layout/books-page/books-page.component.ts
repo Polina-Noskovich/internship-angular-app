@@ -27,7 +27,7 @@ export class BooksPageComponent {
   constructor(private readonly store: Store) {
     this.store.dispatch(new GetBooks());
 
-    const allBooks$ = this.store.select(BooksSelectors.getBooksList);
+    const allBooks$ = this.store.select(BooksSelectors.books);
 
     const filteredBooks$ = combineLatest([
       allBooks$,
@@ -43,7 +43,7 @@ export class BooksPageComponent {
 
   protected createNewBook(): void {
     this.store
-      .select(BooksSelectors.getBooksList)
+      .select(BooksSelectors.books)
       .pipe(take(1))
       .subscribe((allBooks) => {
         const maxId = allBooks.length > 0 ? Math.max(...allBooks.map((book) => book.id)) : 0;
