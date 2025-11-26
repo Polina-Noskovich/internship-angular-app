@@ -1,6 +1,5 @@
-import { Component, ElementRef, viewChild, effect, Signal, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { Component, ElementRef, viewChild, effect, Signal, inject, computed } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Book } from '../../store/books/books-state.model';
 import { Store } from '@ngxs/store';
 import { BooksSelectors } from '../../store/books/books.selectors';
@@ -18,37 +17,27 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './page-detail.component.html',
   styleUrl: './page-detail.component.scss',
 })
-export class PageDetailComponent implements OnInit {
-  protected book!: Signal<Book | undefined>;
-  protected pageNumber!: Signal<number | undefined>;
+export class PageDetailComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly store = inject(Store);
 
-  private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('pageCanvas');
+  private readonly params: Signal<ParamMap | undefined> = toSignal(this.route.paramMap);
+  private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('pageCanvas');
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly store: Store,
-    private readonly injector: Injector
-  ) {
-    effect(() => {
-      this.drawPageLines();
-    })
-  }
+  protected readonly pageNumber: Signal<number> = computed(() => {
+    const params = this.params();
+    return Number(params?.get('pageNumber') ?? 0);
+  });
 
-  public ngOnInit(): void {
-    const paramMap$ = this.route.paramMap;
+  protected readonly book: Signal<Book | undefined> = computed(() => {
+    const params = this.params();
+    const bookId = Number(params?.get('bookId'));
 
-    this.pageNumber = toSignal(
-      paramMap$.pipe(map(params => Number(params.get('pageNumber')))), { injector: this.injector }
-    );
+    return this.store.selectSignal(BooksSelectors.bookById(bookId))();
+  });
 
-    this.book = toSignal(
-      paramMap$.pipe(
-        switchMap(params => {
-          const bookId = Number(params.get('bookId'));
-          return this.store.select<Book | undefined>(BooksSelectors.bookById(bookId));
-        })
-      ), { injector: this.injector }
-    );
+  public ngAfterViewInit(): void {
+    this.drawPageLines();
   }
 
   private drawPageLines(): void {
