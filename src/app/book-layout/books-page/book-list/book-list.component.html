@@ -12,8 +12,8 @@
   <tbody>
     @for (book of books(); track book.id) {
     <tr [routerLink]="['/books', book.id, 'pages']">
-      <td [innerHTML]="book.id + '. ' + book.name | highlight : searchTerm()"></td>
-      <td [innerHTML]="book.type | highlight : searchTerm() : '#fff3cd'"></td>
+      <td [innerHTML]="book.id + '. ' + book.name | highlight : searchValue()"></td>
+      <td [innerHTML]="book.type | highlight : searchValue() : '#fff3cd'"></td>
       <td>{{ book.size }}</td>
       <td>{{ book.createdAt | date : 'dd.MM.yyyy' }}</td>
       <td>{{ book.pages }}</td>

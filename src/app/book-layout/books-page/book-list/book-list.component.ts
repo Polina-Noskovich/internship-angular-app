@@ -22,8 +22,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './book-list.component.scss',
 })
 export class BookListComponent {
-  public books = input.required<Book[]>();
-  public searchTerm = input<string>('');
+  public readonly books = input.required<Book[]>();
+  public readonly searchValue = input<string>('');
 
   public readonly deleteBook = output<number>();
 
