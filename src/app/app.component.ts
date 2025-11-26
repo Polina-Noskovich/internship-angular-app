@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { Store } from '@ngxs/store';
@@ -17,8 +17,10 @@ import { GetBooks } from './store/books/books.actions';
   providers: [],
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  constructor(private readonly router: Router, private readonly store: Store) {
+export class AppComponent implements OnInit {
+  constructor(private readonly router: Router, private readonly store: Store) {}
+
+  public ngOnInit(): void {
     this.store.dispatch(new GetBooks());
   }
   
