@@ -7,15 +7,12 @@ import { BooksSelectors } from '../../store/books/books.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Autofocus } from './directives/autofocus.directive';
 import { BookListComponent } from './book-list/book-list.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-books',
-  standalone: true,
   imports: [
     Autofocus,
     BookListComponent,
-    CommonModule
   ],
   templateUrl: './books-page.component.html',
   styleUrl: './books-page.component.scss',

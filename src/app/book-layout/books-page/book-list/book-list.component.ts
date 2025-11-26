@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-book-list',
-  standalone: true,
   imports: [
     RouterModule,
     MatButtonModule,

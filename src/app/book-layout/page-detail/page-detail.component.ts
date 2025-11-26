@@ -9,7 +9,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-page-detail',
-  standalone: true,
   imports: [
     RouterModule,
     MatIconModule

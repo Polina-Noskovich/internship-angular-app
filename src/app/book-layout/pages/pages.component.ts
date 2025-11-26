@@ -12,7 +12,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-pages',
-  standalone: true,
   imports: [
     RouterModule,
     MatIconModule,

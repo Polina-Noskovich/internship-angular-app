@@ -7,7 +7,6 @@ import { GetBooks } from './store/books/books.actions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: true,
   imports: [
     HttpClientModule,
     RouterOutlet,
