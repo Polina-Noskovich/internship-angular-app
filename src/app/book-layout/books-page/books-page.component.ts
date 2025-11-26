@@ -1,8 +1,8 @@
-import { Component, Signal, Injector, OnInit } from '@angular/core';
+import { Component, Signal, inject, computed } from '@angular/core';
 import { Book } from '../../store/books/books-state.model';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, combineLatest, map, take } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Store } from '@ngxs/store';
-import { AddBook, DeleteBook } from '../../store/books/books.actions';
+import { AddBook, DeleteBook, GetBooks } from '../../store/books/books.actions';
 import { BooksSelectors } from '../../store/books/books.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Autofocus } from './directives/autofocus.directive';
@@ -20,29 +20,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './books-page.component.html',
   styleUrl: './books-page.component.scss',
 }) 
-export class BooksPageComponent implements OnInit {
+export class BooksPageComponent {
   protected readonly searchValue$ = new BehaviorSubject<string>('');
-  protected filteredBooks!: Signal<Book[] | undefined>; 
 
-  constructor(private readonly store: Store, private readonly injector: Injector) {}
+  private readonly store = inject(Store);
+  private readonly allBooks: Signal<Book[]> = this.store.selectSignal(BooksSelectors.books);
 
-  public ngOnInit(): void {
-    const allBooks$ = this.store.select(BooksSelectors.books);
+  protected readonly searchText: Signal<string> = toSignal(this.searchValue$.pipe(debounceTime(300), distinctUntilChanged()), { initialValue: '' });
 
-    const filteredBooks$ = combineLatest([
-      allBooks$,
-      this.searchValue$.pipe(debounceTime(300), distinctUntilChanged()),
-    ]).pipe(map(([books, searchValue]) => this.filterBooks(books, searchValue)));
+  protected readonly filteredBooks = computed(() => {
+    return this.filterBooks(this.allBooks(), this.searchText());
+  });
 
-    this.filteredBooks = toSignal(filteredBooks$, { injector: this.injector});
-  }
+  constructor() {}
 
   protected onSearchInput(value: string): void {
     this.searchValue$.next(value.toLowerCase());
   }
 
   protected createNewBook(): void {
-    const allBooks = this.store.selectSnapshot(BooksSelectors.books);
+    const allBooks = this.allBooks();
     const maxId = allBooks.length > 0 ? Math.max(...allBooks.map((book) => book.id)) : 0;
     const nextId = maxId + 1;
     const newBook: Book = {
