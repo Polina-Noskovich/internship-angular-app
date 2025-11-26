@@ -1,4 +1,4 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, Signal, signal, inject } from '@angular/core';
 import { BooksSelectors } from '../store/books/books.selectors';
 import { Store } from '@ngxs/store';
 
@@ -10,10 +10,9 @@ import { Store } from '@ngxs/store';
   styleUrl: './book-count.component.scss',
 })
 export class BookCountComponent {
-  protected readonly projectName = signal<string>('Internship Book App');
-  protected readonly bookCount: Signal<number>;
+  private readonly store = inject(Store);
 
-  constructor(private readonly store: Store) {
-    this.bookCount = this.store.selectSignal(BooksSelectors.booksCount);
-  }
+  protected readonly projectName = signal<string>('Internship Book App');
+  protected readonly bookCount: Signal<number> = this.store.selectSignal(BooksSelectors.booksCount);
+  
 }
