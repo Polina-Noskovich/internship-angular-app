@@ -36,12 +36,13 @@ export class BooksState {
     const updatedBooks = [...state.books, payload];
     
     patchState({ books: updatedBooks });
+
+    // patchState({ books: append([payload])}); - не получается 
   }
 
   @Action(DeleteBook)
   public deleteBook({ getState, patchState }: StateContext<BooksStateModel>, { payload }: DeleteBook) {
-    const state = getState();
-    const filteredBooks = state.books.filter((book) => book.id !== payload);
+    const filteredBooks = getState().books.filter((book) => book.id !== payload);
 
     patchState({ books: filteredBooks });
   }

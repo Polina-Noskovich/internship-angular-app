@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
   ],
   templateUrl: './books-page.component.html',
   styleUrl: './books-page.component.scss',
-})
+}) 
 export class BooksPageComponent implements OnInit {
   protected readonly searchValue$ = new BehaviorSubject<string>('');
   protected filteredBooks!: Signal<Book[] | undefined>; 
