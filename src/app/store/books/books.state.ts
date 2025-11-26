@@ -33,9 +33,7 @@ export class BooksState {
 
   @Action(AddBook)
   public addBook({ setState }: StateContext<BooksStateModel>, { payload }: AddBook) {
-    setState( patch ({ 
-      books: append([payload])}
-    ))
+    setState(patch({ books: append([payload]) }))
   }
 
   @Action(DeleteBook)

@@ -41,8 +41,8 @@ export class PagesComponent {
   });
 
   private readonly allPages = computed(() => {
-    const book = this.book();
-    return book ? Array.from({ length: book.pages }, (_, i) => i + 1) : [];
+    const pagesCount = this.book()?.pages ?? 0;
+    return Array.from({ length: pagesCount }, (_, i) => i + 1);
   });
 
   protected readonly totalPages = computed(() => this.allPages().length);
