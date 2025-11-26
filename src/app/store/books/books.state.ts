@@ -4,6 +4,7 @@ import { BooksStateModel, Book } from './books-state.model';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';
 import { GetBooks, AddBook, DeleteBook } from './books.actions';
+import { append, patch } from '@ngxs/store/operators';
 
 @State<BooksStateModel>({
   name: 'books',
@@ -31,13 +32,10 @@ export class BooksState {
   }
 
   @Action(AddBook)
-  public addBook({ getState, patchState }: StateContext<BooksStateModel>, { payload }: AddBook) {
-    const state = getState();
-    const updatedBooks = [...state.books, payload];
-    
-    patchState({ books: updatedBooks });
-
-    // patchState({ books: append([payload])}); - не получается 
+  public addBook({ setState }: StateContext<BooksStateModel>, { payload }: AddBook) {
+    setState( patch ({ 
+      books: append([payload])}
+    ))
   }
 
   @Action(DeleteBook)
