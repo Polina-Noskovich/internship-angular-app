@@ -13,8 +13,8 @@
   </div>
 
   <app-book-list
-    [books]="(filteredBooks$ | async) || []"
-    [searchTerm]="(searchValue$ | async) || ''"
+    [books]="filteredBooks()"
+    [searchValue]="searchText()"
     (deleteBook)="onDelete($event)"
   >
   </app-book-list>

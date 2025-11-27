@@ -5,6 +5,10 @@ export interface Book {
   name: string;
   type: BookType;
   size: string;
-  createdAt: Date;
+  createdAt: string | Date;
   pages: number;
+}
+
+export interface BooksStateModel {
+    books: Book[];
 }

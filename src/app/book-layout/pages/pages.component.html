@@ -1,4 +1,4 @@
-@if (book$ | async; as book) {
+@if (book(); as book) {
 
   <div class="page-header">
     <a routerLink="/books" class="back-link">
@@ -8,14 +8,11 @@
     <h1>{{ book.name }}</h1>
     <div class="placeholder"></div>
   </div>
-
-  @let pagination = pagination$ | async;
-  @let pages = paginatedPages$ | async;
   
-  @if (pagination && pages?.length) {
+  @if (pagination() && paginatedPages().length) {
     
     <div class="pages-grid">
-      @for (page of pages; track page) {
+      @for (page of paginatedPages(); track page) {
         <a [routerLink]="['/books', book.id, 'pages', page]">
           <div class="page-square">
             <span class="page-number">{{ page }}</span>
@@ -25,9 +22,9 @@
     </div>
 
     <mat-paginator
-      [length]="(totalPages$ | async) ?? 0"
-      [pageSize]="pagination.pageSize"
-      [pageIndex]="pagination.pageIndex"
+      [length]="totalPages()"
+      [pageSize]="pagination().pageSize"
+      [pageIndex]="pagination().pageIndex"
       (page)="onPageChange($event)"
       [hidePageSize]="true"
       [showFirstLastButtons]="false"
