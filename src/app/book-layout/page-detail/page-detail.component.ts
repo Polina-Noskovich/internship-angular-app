@@ -24,14 +24,11 @@ export class PageDetailComponent {
   private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('pageCanvas');
 
   protected readonly pageNumber: Signal<number> = computed(() => {
-    const params = this.params();
-    return Number(params?.get('pageNumber') ?? 0);
+    return Number(this.params()?.get('pageNumber') ?? 0);
   });
 
   protected readonly book: Signal<Book | undefined> = computed(() => {
-    const params = this.params();
-    const bookId = Number(params?.get('bookId'));
-
+    const bookId = Number(this.params()?.get('bookId'));
     return this.store.selectSignal(BooksSelectors.bookById(bookId))();
   });
 

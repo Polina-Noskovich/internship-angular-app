@@ -37,7 +37,7 @@ export class BooksPageComponent {
 
   protected createNewBook(): void {
     const allBooks = this.allBooks();
-    const maxId = allBooks.length > 0 ? Math.max(...allBooks.map((book) => book.id)) : 0;
+    const maxId = allBooks.length ? Math.max(...allBooks.map((book) => book.id)) : 0;
     const nextId = maxId + 1;
     const newBook: Book = {
       id: nextId,

@@ -4,7 +4,6 @@ import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   imports: [],
   templateUrl: './book-count.component.html',
   styleUrl: './book-count.component.scss',

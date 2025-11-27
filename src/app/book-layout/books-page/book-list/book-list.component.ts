@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { HighlightPipe } from '../pipes/highlight.pipe';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common'; 
 
 @Component({
   selector: 'app-book-list',
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatMenuModule,
     HighlightPipe,
-    CommonModule
+    DatePipe
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss',
